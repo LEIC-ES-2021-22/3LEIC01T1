@@ -9,7 +9,10 @@ Every student can maximize their unexplored potential, enhancing their ability t
 - Notification for Events in Moodle 
     - Project Submission Deadlines
 - Notification for Exams
-- Details about these events and exams (room number, due date, count down)
+- Details about these events and exams 
+    - Room Number
+    - Due Date
+    - Detail
 - Automatic synchnization for push notifications from moodle (by API)
 
 

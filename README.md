@@ -7,7 +7,7 @@ You can find here detailed about our mini-app, from a high-level vision to low-l
 * Business modeling 
   * [Product Vision](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/ProductVision.md)
   * [Elevator Pitch]
-* [Requirements]
+* [Requirements](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md)
   * [Use Case Model]
   * [Domain model]
   * [User stories]
@@ -25,7 +25,6 @@ So far, contributions are exclusively made by the initial team, but we hope to o
 Please contact us! 
 
 Thank you!
-
 
 ## Team Members
 
