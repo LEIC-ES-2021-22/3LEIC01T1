@@ -81,4 +81,12 @@ For each user story you should write also the acceptance tests (textually in [Gh
 At the end, it is good to add a rough indication of the value of the user story to the customers (e.g. [MoSCoW](https://en.wikipedia.org/wiki/MoSCoW_method) method) and the team should add an estimation of the effort to implement it, for example, using t-shirt sizes (XS, S, M, L, XL).
 
 
+### UI Mockups
 
+ <p align="center" justify="center">Login Page
+  <img src="../images/login-page_mockup.png">
+</p>
+
+ <p align="center" justify="center">Main Menu
+  <img src="../images/main-menu_mockup.png">
+</p>
