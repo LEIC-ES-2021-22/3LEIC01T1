@@ -8,7 +8,7 @@ You can find here detailed about our mini-app, from a high-level vision to low-l
   * [Product Vision](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/ProductVision.md)
   * [Elevator Pitch]
 * [Requirements](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md)
-  * [Use Case Model]
+  * [Use Case Model](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#Use-Case-Model)
   * [Domain model]
   * [User stories]
 * [Architecture and Design]
