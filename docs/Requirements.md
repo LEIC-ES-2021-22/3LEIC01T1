@@ -48,7 +48,7 @@
 | *Normal flow* | 1. The event proposer opens the application and selects the event for update or removal <br> 2. A warning is showed before submission of this action and needs to be confirmed <br> 3. The changes are synced to all students interested in this event |
 | *Alternative flows and exceptions* | 1. [Moodle Automatic Update] When an event is modified/removed in Moodle of an associated course, this one will also be automatically updated and removed from the application, and notification is also sent to the students |
 
-### Domain model
+### Domain Model
 
 To better understand the context of the software system, it is very useful to have a simple UML class diagram with all the key concepts (names, attributes) and relationships involved of the problem domain addressed by your module. 
 Also provide a short textual description of each class. 
@@ -58,7 +58,7 @@ Example:
   <img src="../images/domain-model.drawio.png"/>
 </p>
 
-### User stories
+### User Stories
 
 This section will contain the requirements of the product described as **user stories**, organized in a global **[user story map](https://plan.io/blog/user-story-mapping/)** with **user roles** or **themes**.
 

@@ -6,11 +6,11 @@ You can find here detailed about our mini-app, from a high-level vision to low-l
 
 * Business modeling 
   * [Product Vision](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/ProductVision.md)
-  * [Elevator Pitch]
+  * [Elevator Pitch](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/ElevatorPitch.md)
 * [Requirements](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md)
   * [Use Case Model](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#Use-Case-Model)
-  * [Domain model]
-  * [User stories]
+  * [Domain Model](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#Domain-Model)
+  * [User Stories](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#User-Stories)
 * [Architecture and Design]
   * [Logical architecture]
   * [Physical architecture]
