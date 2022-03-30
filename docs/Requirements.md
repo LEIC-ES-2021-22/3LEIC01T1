@@ -1,11 +1,9 @@
-
 ## Requirements
 
 ### Use Case Model 
 
  <p align="center" justify="center">
   <img src="../images/use-case-diagram.drawio.png">
-  <p>Figure 1</p>
 </p>
 
 |||
@@ -60,33 +58,223 @@ Example:
 
 ### User Stories
 
-This section will contain the requirements of the product described as **user stories**, organized in a global **[user story map](https://plan.io/blog/user-story-mapping/)** with **user roles** or **themes**.
+1. As a student, I want to know as soon as possible when
+a task was postponed, so that I can reorganize my agenda according
+to that change.
 
-For each theme, or role, you may add a small description. User stories should be detailed in the tool you decided to use for project management (e.g. trello or github projects).
+2. As a student, I want to know if there is a change in
+a task location.
 
-A user story is a description of desired functionality told from the perspective of the user or customer. A starting template for the description of a user story is
+3. As a teacher, I want to be able to reschedule a 
+task whenever deemed as necessary also notifying the students.
 
-*As a < user role >, I want < goal > so that < reason >.*
+4. As a teacher, I want to be able to change a task
+location whenever deemed as necessary also notifying the students.
 
-**INVEST in good user stories**.
-You may add more details after, but the shorter and complete, the better. In order to decide if the user story is good, please follow the [INVEST guidelines](https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/).
+5. As an app user, I want to know a more detailed version
+of my tasks in a specific section of the app.
 
-**User interface mockups**.
-After the user story text, you should add a draft of the corresponding user interfaces, a simple mockup or draft, if applicable.
+6. As an app user, I want to filter my tasks in a specific order
+according to date.
 
-**Acceptance tests**.
-For each user story you should write also the acceptance tests (textually in [Gherkin](https://cucumber.io/docs/gherkin/reference/)), i.e., a description of scenarios (situations) that will help to confirm that the system satisfies the requirements addressed by the user story.
+7. As an app user, I want to filter my tasks according to a
+course.
 
-**Value and effort**.
-At the end, it is good to add a rough indication of the value of the user story to the customers (e.g. [MoSCoW](https://en.wikipedia.org/wiki/MoSCoW_method) method) and the team should add an estimation of the effort to implement it, for example, using t-shirt sizes (XS, S, M, L, XL).
+8. As an app user, I want a template on my sign in, in order 
+to make its requirements easy to understand.
 
+9. As an app user, I want to recover my password if I lose it.
 
-### UI Mockups
+## User Story [1]()
 
- <p align="center" justify="center">Login Page
-  <img src="../images/login-page_mockup.png">
+As a student, I want to receive deadline reminders for tasks that I am interested in, so that I won't miss any task.
+
+#### Mockup
+ <p align="center" justify="center">
+  <img src="../images/us1_mockup.png">
 </p>
 
- <p align="center" justify="center">Main Menu
-  <img src="../images/main-menu_mockup.png">
+#### Acceptance Test
+```gherkin
+Given I want to be aware of my deadlines,
+When I turn on my phone screen,
+Then I can read the notification and know a brief information about it.
+```
+
+#### Value
+
+Core Function
+
+#### Effort
+
+XL
+
+## User Story [2]()
+
+As a student, I want to know if a teacher made changes to any task I'm interested in, so that I can reorganize my agenda according to the changes.
+
+#### Mockup
+ <p align="center" justify="center">
+  <img src="../images/us2_mockup.png">
 </p>
+
+#### Acceptance Test
+
+```gherkin
+Given that there was a change in a task and I would like to know as soon as possible,
+When I turn on my phone screen,
+Then I can read the notification and know a brief detail about the change
+```
+
+#### Value
+
+Important for many users 
+
+#### Effort
+
+XL
+
+## User Story [3]()
+
+As a teacher, I want to be able to edit or update a task whenever deemed as necessary and notify the students so that they can be aware as soon as possible.
+
+#### Mockup
+
+<p align="center" justify="center">
+  <img src="../images/us3_mockup.png">
+</p>
+
+
+#### Acceptance Test
+
+```gherkin
+Given that I want to edit or update a task
+When I enter the app
+Then there should be a form for which I can easily update the details of a task
+```
+
+#### Value
+
+Core Function
+
+#### Effort
+
+XL
+
+## User Story [4]()
+
+As a teacher, I want to be able to create a task whenever deemed as necessary and notify the students so that they can take action as soon as possible.
+
+#### Mockup
+
+<p align="center" justify="center">
+  <img src="../images/us4_mockup.png">
+</p>
+
+
+#### Acceptance Test
+
+```gherkin
+Given I want to create a task for the students
+When I open the task section
+Then I want to fill up the details of a task and post it
+```
+
+## User Story [5]()
+
+As an app user, I want to see a preview of all my tasks, so that I can easily have an idea of all the remaining tasks.
+
+#### Mockup
+
+<p align="center" justify="center">
+  <img src="../images/us5_mockup.png">
+</p>
+
+#### Acceptance Test
+
+```gherkin
+Given I want to see a preview of all my tasks,
+When I head to the main menu,
+Then a list of all tasks should show up
+```
+
+
+## User Story [6]()
+
+As an app user, I want to apply filter to the tasks, so that I can find out the tasks that I am interested in more easily.
+
+#### Mockup
+
+<p align="center" justify="center">
+  <img src="../images/us6_mockup.png">
+</p>
+
+#### Acceptance Test
+
+```gherkin
+Given I want to see tasks of specific deadlines,
+When I open the sidebar and choose a time filter,
+Then a list of filtered tasks should show up.
+```
+
+## User Story [7]():
+
+As an app user, I want to see all the detail about a task, so that I can have a better understanding of what the task is about
+
+#### Mockup
+
+<p align="center" justify="center">
+  <img src="../images/us7_mockup.png">
+</p>
+
+
+#### Acceptance Test
+
+```gherkin
+Given I want to know all the detail about a task,
+When I click on a task on a section with tasks,
+Then I should see all the detail of the selected task
+```
+
+## User Story [8]():
+
+As an app user, I want to be able to have an account and sign in, so that I can have all my tasks synchronized in all the devices.
+
+#### Mockup
+
+<p align="center" justify="center">
+  <img src="../images/us8_mockup.png">
+</p>
+
+
+#### Acceptance Test
+
+```gherkin
+Given I want to have the same content in all devices
+When I open the application for the first time
+Then a window should appear to login with my credentials
+```
+
+## User Story [9]():
+
+As an app user, I want to be able to recover my password, so that I can have a new password if I lose it or simply want to change it.
+
+#### Mockup
+
+<p align="center" justify="center">
+  <img src="../images/us8_mockup.png">
+</p>
+
+
+
+#### Acceptance Test
+
+```gherkin
+Given I want to recover the password,
+When I click on 'forgot your password?'
+Then a form should show up to recover or change my password
+```
+
+
+
+

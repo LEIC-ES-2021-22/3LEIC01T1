@@ -12,7 +12,7 @@ You can find here detailed about our mini-app, from a high-level vision to low-l
   * [Domain Model](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#Domain-Model)
   * [User Stories](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#User-Stories)
   * [Acceptance Tests](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#Acceptance-Tests)
-  * [UI Mockups](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#UI-Mockups)
+  * [UI Mockups](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#User-Interface-Mockups)
 * [Architecture and Design]
   * [Logical architecture]
   * [Physical architecture]
