@@ -98,7 +98,7 @@ As a student, I want to receive deadline reminders for events that I am interest
 ```gherkin
 Given I want to be aware of my deadlines,
 When I turn on my phone screen,
-Then I can read the notification and know a brief information about it.
+Then I can read the notification and know brief information about it.
 ```
 
 #### Value
@@ -121,7 +121,7 @@ As a student, I want to know if a teacher made changes to any event I'm interest
 #### Acceptance Test
 
 ```gherkin
-Given that there was a change in a event and I would like to know as soon as possible,
+Given that there was a change in an event and I would like to know as soon as possible,
 When I turn on my phone screen,
 Then I can read the notification and know a brief detail about the change
 ```
@@ -136,7 +136,7 @@ XL
 
 ## User Story [3]()
 
-As a teacher, I want to be able to create a event whenever deemed as necessary and notify the students so that they can take action as soon as possible.
+As a teacher, I want to be able to create an event whenever deemed as necessary and notify the students so that they can take action as soon as possible.
 
 #### Mockup
 
@@ -148,14 +148,14 @@ As a teacher, I want to be able to create a event whenever deemed as necessary a
 #### Acceptance Test
 
 ```gherkin
-Given I want to create a event for the students
+Given I want to create an event for the students
 When I open the event section
-Then I want to fill up the details of a event and post it
+Then I want to fill up the details of an event and post it
 ```
 
 ## User Story [4]()
 
-As a teacher, I want to be able to edit or update a event whenever deemed as necessary and notify the students so that they can be aware as soon as possible.
+As a teacher, I want to be able to edit or update an event whenever deemed as necessary and notify the students so that they can be aware as soon as possible.
 
 #### Mockup
 
@@ -167,9 +167,9 @@ As a teacher, I want to be able to edit or update a event whenever deemed as nec
 #### Acceptance Test
 
 ```gherkin
-Given that I want to edit or update a event
+Given that I want to edit or update an event
 When I enter the app
-Then there should be a form for which I can easily update the details of a event
+Then there should be a form for which I can easily update the details of an event
 ```
 
 #### Value
@@ -200,6 +200,13 @@ When I head to the main menu,
 Then a list of all events should show up
 ```
 
+#### Value
+
+Core Function
+
+#### Effort
+
+XL
 
 ## User Story [6]()
 
@@ -219,9 +226,17 @@ When I open the sidebar and choose a time filter,
 Then a list of filtered events should show up.
 ```
 
+#### Value
+
+Core Function
+
+#### Effort
+
+XL
+
 ## User Story [7]():
 
-As an app user, I want to see all the detail about a event, so that I can have a better understanding of what the event is about
+As an app user, I want to see all the detail about an event, so that I can have a better understanding of what the event is about.
 
 #### Mockup
 
@@ -229,14 +244,21 @@ As an app user, I want to see all the detail about a event, so that I can have a
   <img src="../images/us7_mockup.png">
 </p>
 
-
 #### Acceptance Test
 
 ```gherkin
-Given I want to know all the detail about a event,
-When I click on a event on a section with events,
+Given I want to know all the detail about an event,
+When I click on an event in a section with events,
 Then I should see all the detail of the selected event
 ```
+
+#### Value
+
+Core Function
+
+#### Effort
+
+XL
 
 ## User Story [8]():
 
@@ -252,10 +274,18 @@ As an app user, I want to be able to have an account and sign in, so that I can 
 #### Acceptance Test
 
 ```gherkin
-Given I want to have the same content in all devices
+Given I want to have the same content on all devices
 When I open the application for the first time
-Then a window should appear to login with my credentials
+Then a window should appear to log in with my credentials
 ```
+
+#### Value
+
+Core Function
+
+#### Effort
+
+XL
 
 ## User Story [9]():
 
@@ -268,7 +298,6 @@ As an app user, I want to be able to recover my password, so that I can have a n
 </p>
 
 
-
 #### Acceptance Test
 
 ```gherkin
@@ -277,6 +306,10 @@ When I click on 'forgot your password?'
 Then a form should show up to recover or change my password
 ```
 
+#### Value
 
+Core Function
 
+#### Effort
 
+XL
