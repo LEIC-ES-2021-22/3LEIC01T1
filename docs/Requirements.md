@@ -58,34 +58,25 @@ Example:
 
 ### User Stories
 
-1. As a student, I want to know as soon as possible when
-a event was postponed, so that I can reorganize my agenda according
-to that change.
+1. As a student, I want to receive deadline reminders for events that I am interested in, so that I won't miss any event.
 
-2. As a student, I want to know if there is a change in
-a event location.
+2. As a student, I want to know if a teacher made changes to any event I'm interested in, so that I can reorganize my agenda according to the changes.
 
-3. As a teacher, I want to be able to reschedule a 
-event whenever deemed as necessary also notifying the students.
+3. As a teacher, I want to be able to create a event whenever deemed as necessary and notify the students so that they can take action as soon as possible.
 
-4. As a teacher, I want to be able to change a event
-location whenever deemed as necessary also notifying the students.
+4. As a teacher, I want to be able to edit or update a event whenever deemed as necessary and notify the students so that they can be aware as soon as possible.
 
-5. As an app user, I want to know a more detailed version
-of my events in a specific section of the app.
+5. As an app user, I want to see a preview of all my events, so that I can easily have an idea of all the remaining events.
 
-6. As an app user, I want to filter my events in a specific order
-according to date.
+6. As an app user, I want to apply filter to the events, so that I can find out the events that I am interested in more easily.
 
-7. As an app user, I want to filter my events according to a
-course.
+7. As an app user, I want to see all the detail about a event, so that I can have a better understanding of what the event is about.
 
-8. As an app user, I want a template on my sign in, in order 
-to make its requirements easy to understand.
+8. As an app user, I want to be able to have an account and sign in, so that I can have all my events synchronized in all the devices.
 
-9. As an app user, I want to recover my password if I lose it.
+9. As an app user, I want to be able to recover my password, so that I can have a new password if I lose it or simply want to change it.
 
-## User Story [1]()
+## User Story [1](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/4)
 
 As a student, I want to receive deadline reminders for events that I am interested in, so that I won't miss any event.
 
@@ -109,7 +100,7 @@ Core Function
 
 XL
 
-## User Story [2]()
+## User Story [2](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/5)
 
 As a student, I want to know if a teacher made changes to any event I'm interested in, so that I can reorganize my agenda according to the changes.
 
@@ -132,18 +123,25 @@ Important for many users
 
 #### Effort
 
-XL
+M
 
-## User Story [3]()
+## User Story [3](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/6)
 
 As a teacher, I want to be able to create an event whenever deemed as necessary and notify the students so that they can take action as soon as possible.
 
 #### Mockup
 
 <p align="center" justify="center">
-  <img src="../images/us4_mockup.png">
+  <img src="../images/us3_mockup.png">
 </p>
 
+#### Value
+
+Core function 
+
+#### Effort
+
+XL
 
 #### Acceptance Test
 
@@ -153,14 +151,14 @@ When I open the event section
 Then I want to fill up the details of an event and post it
 ```
 
-## User Story [4]()
+## User Story [4](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/7)
 
 As a teacher, I want to be able to edit or update an event whenever deemed as necessary and notify the students so that they can be aware as soon as possible.
 
 #### Mockup
 
 <p align="center" justify="center">
-  <img src="../images/us3_mockup.png">
+  <img src="../images/us4_mockup.png">
 </p>
 
 
@@ -174,15 +172,13 @@ Then there should be a form for which I can easily update the details of an even
 
 #### Value
 
-Core Function
+Very important
 
 #### Effort
 
-XL
+L
 
-
-
-## User Story [5]()
+## User Story [5](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/8)
 
 As an app user, I want to see a preview of all my events, so that I can easily have an idea of all the remaining events.
 
@@ -202,13 +198,13 @@ Then a list of all events should show up
 
 #### Value
 
-Core Function
+Core function
 
 #### Effort
 
 XL
 
-## User Story [6]()
+## User Story [6](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/9)
 
 As an app user, I want to apply filter to the events, so that I can find out the events that I am interested in more easily.
 
@@ -228,15 +224,15 @@ Then a list of filtered events should show up.
 
 #### Value
 
-Core Function
+Secondary feature
 
 #### Effort
 
-XL
+S
 
-## User Story [7]():
+## User Story [7](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/10):
 
-As an app user, I want to see all the detail about an event, so that I can have a better understanding of what the event is about.
+As an app user, I want to see all the detail about a event, so that I can have a better understanding of what the event is about.
 
 #### Mockup
 
@@ -254,13 +250,13 @@ Then I should see all the detail of the selected event
 
 #### Value
 
-Core Function
+Very important
 
 #### Effort
 
-XL
+L
 
-## User Story [8]():
+## User Story [8](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/11):
 
 As an app user, I want to be able to have an account and sign in, so that I can have all my events synchronized in all the devices.
 
@@ -269,7 +265,6 @@ As an app user, I want to be able to have an account and sign in, so that I can 
 <p align="center" justify="center">
   <img src="../images/us8_mockup.png">
 </p>
-
 
 #### Acceptance Test
 
@@ -281,13 +276,13 @@ Then a window should appear to log in with my credentials
 
 #### Value
 
-Core Function
+Core function
 
 #### Effort
 
 XL
 
-## User Story [9]():
+## User Story [9](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/12):
 
 As an app user, I want to be able to recover my password, so that I can have a new password if I lose it or simply want to change it.
 
@@ -296,7 +291,6 @@ As an app user, I want to be able to recover my password, so that I can have a n
 <p align="center" justify="center">
   <img src="../images/us8_mockup.png">
 </p>
-
 
 #### Acceptance Test
 
@@ -308,8 +302,8 @@ Then a form should show up to recover or change my password
 
 #### Value
 
-Core Function
+Useful but secondary function
 
 #### Effort
 
-XL
+M
