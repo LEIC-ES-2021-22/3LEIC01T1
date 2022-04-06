@@ -7,16 +7,16 @@ You can find here detailed about our mini-app, from a high-level vision to low-l
 * Business modeling 
   * [Product Vision](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/ProductVision.md)
   * [Elevator Pitch](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/ElevatorPitch.md)
-* [Requirements](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md)
+* [Requirements]
   * [Use Case Model](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#Use-Case-Model)
   * [Domain Model](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#Domain-Model)
   * [User Stories](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#User-Stories)
   * [Acceptance Tests](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#Acceptance-Tests)
-  * [UI Mockups](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#User-Interface-Mockups)
+  * [UI Mockups](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/Requirements.md#Mockup)
 * [Architecture and Design]
-  * [Logical architecture]
-  * [Physical architecture]
-  * [Prototype]
+  * [Logical architecture](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/ArchitectureAndDesign.md#Logical-Architecture)
+  * [Physical architecture](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/ArchitectureAndDesign.md#Physical-Architecture)
+  * [Prototype](https://github.com/LEIC-ES-2021-22/3LEIC01T1/blob/main/docs/ArchitectureAndDesign.md#Vertical-Prototype)
 * [Implementation]
 * [Test]
 * [Configuration and change management]
