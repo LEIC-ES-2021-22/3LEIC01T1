@@ -13,7 +13,7 @@ Every student can maximize their unexplored potential, enhancing their ability t
     - Room Number
     - Due Date
     - Detail
-- Automatic synchnization for push notifications from moodle (by API)
+- Automatic synchronization for push notifications from moodle (by API)
 
 
 ### Assumptions and dependencies
