@@ -1,0 +1,10 @@
+This project's logical architecture follows the Model-View-Controller Pattern (MVC).
+
+* The Model stores all the data from RemindMeUP such as tasks with associated
+  time, location and description. 
+
+* The View displays the app information state, i.e , login, task and create pages.
+
+* The Controller mediates the events requested by the user and sends the appropriate notifications to 
+  be displayed, i.e, when the user creates a new task the controller is responsible for making the data 
+  ready to be displayed.
