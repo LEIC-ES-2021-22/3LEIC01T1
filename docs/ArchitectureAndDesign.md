@@ -20,18 +20,14 @@ Example of _UML package diagram_ showing a _logical view_ of the Eletronic Ticke
 ![LogicalView](https://user-images.githubusercontent.com/9655877/160585416-b1278ad7-18d7-463c-b8c6-afa4f7ac7639.png)
 
 ### Physical Architecture
-The goal of this subsection is to document the high-level physical structure of the software system (machines, connections, software components installed, and their dependencies) using UML deployment diagrams (Deployment View) or component diagrams (Implementation View), separate or integrated, showing the physical structure of the system.
 
-It should describe also the technologies considered and justify the selections made. Examples of technologies relevant for uni4all are, for example, frameworks for mobile applications (such as Flutter).
+![DeploymentView](../images/physical-architecture.drawio.png)
 
-Example of _UML deployment diagram_ showing a _deployment view_ of the Eletronic Ticketing System (please notice that, instead of software components, one should represent their physical/executable manifestations for deployment, called artifacts in UML; the diagram should be accompanied by a short description of each node and artifact):
-
-![DeploymentView](https://user-images.githubusercontent.com/9655877/160592491-20e85af9-0758-4e1e-a704-0db1be3ee65d.png)
-
-
+In this project we opted to use the cloud functions provided by [Firebase](https://firebase.google.com/), a serverless framework that allows us to run backend code that triggers events for the notification service (Firebase Cloud Messaging). These functions will also allow us to use FireStore, a realtime Database, keeping our data in sync across our clients applications through realtime listeners and also offering offline support for our mobile and web so we can build responsive apps that work regarless of network latency and Internet availability.
 
 ### Vertical Prototype
-To help on validating all the architectural, design and technological decisions made, we usually implement a vertical prototype, a thin vertical slice of the system.
+
+To help on validating all the architectural, design and technological decisions made, we usually implement a vertical prototype, a thin vertical slice of the system. 
 
 In this subsection please describe which feature you have implemented, and how, together with a snapshot of the user interface, if applicable.
 
