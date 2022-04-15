@@ -31,7 +31,7 @@ class RemindMeUP extends StatelessWidget {
           ),
         ),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Color(0xFF1b1a2d),
           elevation: 0,
         ),
         drawerTheme: const DrawerThemeData(
