@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:remind_me_up/event.dart';
+import 'package:remind_me_up/models/event.dart';
+
+import 'event_card.dart';
 
 void main() {
   runApp(const RemindMeUP());
@@ -18,9 +20,23 @@ class RemindMeUP extends StatelessWidget {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color(0xFF1b1a2d),
         primaryColor: Colors.deepPurple,
-        cardColor: const Color(0xff261e3e),
-        // appBarTheme: const AppBarTheme(
-        //     backgroundColor: Colors.transparent, elevation: 0)
+        cardColor: const Color(0xff23223b),
+        cardTheme: CardTheme(
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(
+              color: Colors.white10,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        drawerTheme: const DrawerThemeData(
+          backgroundColor: Color(0xFF1b1a2d),
+        ),
       ),
       themeMode: ThemeMode.system,
       home: HomePage(title: appTitle),
@@ -36,7 +52,7 @@ class HomePage extends StatelessWidget {
   final List<Event> events = [
     Event(
       name: 'Invited talk by Prof. Pimenta Monteiro',
-      deadline: DateTime.now().add(const Duration(hours: 1)),
+      deadline: DateTime.now().add(const Duration(minutes: 22)),
       course: 'ESOF',
       duration: const Duration(hours: 2),
       teacher: 'Ademar Aguiar',
@@ -70,13 +86,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(
-        backgroundColor: Color(0xFF1b1a2d),
-      ),
+      drawer: const Drawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: Colors.deepPurple.shade700,
             floating: true,
             actions: [
               ElevatedButton(
@@ -90,7 +103,7 @@ class HomePage extends StatelessWidget {
                   backgroundImage: AssetImage('assets/okayeg.png'),
                 ),
               ),
-              const SizedBox(width: 10)
+              const SizedBox(width: 15)
             ],
           ),
           SliverToBoxAdapter(
@@ -121,11 +134,11 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }

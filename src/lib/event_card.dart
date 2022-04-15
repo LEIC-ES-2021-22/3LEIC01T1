@@ -2,26 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:remind_me_up/util.dart';
 
-class Event {
-  String name;
-  DateTime deadline;
-  String course;
-  String? teacher;
-
-  String? description;
-  Duration? duration;
-  String? location;
-
-  Event({
-    required this.name,
-    required this.deadline,
-    required this.course,
-    this.description,
-    this.duration,
-    this.location,
-    this.teacher,
-  });
-}
+import 'package:remind_me_up/models/event.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -36,7 +17,10 @@ class EventCard extends StatelessWidget {
         children: [
           Text(
             rounded[0].toString(),
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+                color: Colors.deepPurple.shade300),
           ),
           const SizedBox(
             height: 5,
@@ -53,9 +37,9 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: InkWell(
-        customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        customBorder:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         onTap: () => Navigator.pushNamed(context, '/event', arguments: event),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
@@ -73,7 +57,7 @@ class EventCard extends StatelessWidget {
                     const SizedBox(height: 5),
                     Row(
                       children: [
-                        const Icon(Icons.school, size: 15),
+                        const Icon(Icons.school, size: 16),
                         const SizedBox(
                           width: 5,
                         ),
@@ -82,7 +66,7 @@ class EventCard extends StatelessWidget {
                         if (event.teacher != null)
                           Row(
                             children: [
-                              const Icon(Icons.person, size: 15),
+                              const Icon(Icons.person, size: 16),
                               const SizedBox(width: 5),
                               Text(event.teacher!),
                             ],
@@ -94,7 +78,7 @@ class EventCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const Icon(Icons.calendar_month, size: 15),
+                        const Icon(Icons.calendar_month, size: 16),
                         const SizedBox(
                           width: 5,
                         ),
@@ -106,7 +90,7 @@ class EventCard extends StatelessWidget {
                         if (event.duration != null)
                           Row(
                             children: [
-                              const Icon(Icons.timer_outlined, size: 15),
+                              const Icon(Icons.timer_outlined, size: 16),
                               const SizedBox(
                                 width: 5,
                               ),
