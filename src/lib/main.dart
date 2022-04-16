@@ -19,7 +19,6 @@ class RemindMeUP extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color(0xFF1b1a2d),
-        primaryColor: Colors.deepPurple,
         cardColor: const Color(0xff23223b),
         cardTheme: CardTheme(
           shape: RoundedRectangleBorder(

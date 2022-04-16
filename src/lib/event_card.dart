@@ -12,7 +12,7 @@ class EventCard extends StatelessWidget {
   SizedBox durationBox(Duration dur) {
     final rounded = Util.maxTersity(dur);
     return SizedBox(
-      width: 70,
+      width: 75,
       child: Column(
         children: [
           Text(
@@ -55,16 +55,21 @@ class EventCard extends StatelessWidget {
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
-                    Row(
+                    Wrap(
+                      spacing: 15,
+                      runSpacing: 5,
                       children: [
-                        const Icon(Icons.school, size: 16),
-                        const SizedBox(
-                          width: 5,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.school, size: 16),
+                            const SizedBox(width: 5),
+                            Text(event.course),
+                          ],
                         ),
-                        Text(event.course),
-                        const SizedBox(width: 15),
                         if (event.teacher != null)
                           Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               const Icon(Icons.person, size: 16),
                               const SizedBox(width: 5),
@@ -73,28 +78,32 @@ class EventCard extends StatelessWidget {
                           )
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
+                    const SizedBox(height: 5),
+                    Wrap(
+                      spacing: 15,
+                      runSpacing: 5,
                       children: [
-                        const Icon(Icons.calendar_month, size: 16),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(DateFormat("HH:MM E, dd MMMM yyyy")
-                            .format(event.deadline)),
-                        const SizedBox(
-                          width: 15,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.calendar_month, size: 16),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(DateFormat("HH:MM E, dd MMMM yyyy")
+                                .format(event.deadline)),
+                          ],
                         ),
                         if (event.duration != null)
                           Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               const Icon(Icons.timer_outlined, size: 16),
                               const SizedBox(
                                 width: 5,
                               ),
-                              Text(Util.maxTersity(event.duration!).formatted()),
+                              Text(
+                                  Util.maxTersity(event.duration!).formatted()),
                             ],
                           )
                       ],
