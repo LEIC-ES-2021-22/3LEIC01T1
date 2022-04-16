@@ -16,7 +16,7 @@ class EventCard extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            rounded[0].toString(),
+            rounded.amount.toString(),
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 22,
@@ -26,7 +26,7 @@ class EventCard extends StatelessWidget {
             height: 5,
           ),
           Text(
-            rounded[1].toUpperCase(),
+            rounded.pluralizedTersity().toUpperCase(),
             style: const TextStyle(fontWeight: FontWeight.bold),
           )
         ],
@@ -94,7 +94,7 @@ class EventCard extends StatelessWidget {
                               const SizedBox(
                                 width: 5,
                               ),
-                              Text(Util.formattedDuration(event.duration!)),
+                              Text(Util.maxTersity(event.duration!).formatted()),
                             ],
                           )
                       ],
