@@ -9,37 +9,13 @@ class EventCard extends StatelessWidget {
 
   const EventCard({Key? key, required this.event}) : super(key: key);
 
-  SizedBox durationBox(Duration dur) {
-    final rounded = Util.maxTersity(dur);
-    return SizedBox(
-      width: 75,
-      child: Column(
-        children: [
-          Text(
-            rounded.amount.toString(),
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-                color: Colors.deepPurple.shade300),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            rounded.pluralizedTersity().toUpperCase(),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          )
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        customBorder:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         onTap: () => Navigator.pushNamed(context, '/event', arguments: event),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
@@ -52,30 +28,22 @@ class EventCard extends StatelessWidget {
                   children: [
                     Text(
                       event.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                     const SizedBox(height: 5),
                     Wrap(
                       spacing: 15,
                       runSpacing: 5,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.school, size: 16),
-                            const SizedBox(width: 5),
-                            Text(event.course),
-                          ],
-                        ),
+                        IconWithText(icon: Icons.school, text: event.course),
                         if (event.teacher != null)
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.person, size: 16),
-                              const SizedBox(width: 5),
-                              Text(event.teacher!),
-                            ],
-                          )
+                          IconWithText(
+                            icon: Icons.person,
+                            text: event.teacher!,
+                          ),
                       ],
                     ),
                     const SizedBox(height: 5),
@@ -83,39 +51,95 @@ class EventCard extends StatelessWidget {
                       spacing: 15,
                       runSpacing: 5,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.calendar_month, size: 16),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(DateFormat("HH:MM E, dd MMMM yyyy")
-                                .format(event.deadline)),
-                          ],
+                        IconWithText(
+                          icon: Icons.calendar_month,
+                          text: DateFormat("HH:MM E, dd MMMM yyyy")
+                              .format(event.deadline),
                         ),
                         if (event.duration != null)
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.timer_outlined, size: 16),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                  Util.maxTersity(event.duration!).formatted()),
-                            ],
-                          )
+                          IconWithText(
+                            icon: Icons.timer_outlined,
+                            text: RoundedDuration.fromDuration(event.duration!)
+                                .formatted(),
+                          ),
                       ],
                     ),
                   ],
                 ),
               ),
-              durationBox(event.deadline.difference(DateTime.now())),
+              RoundedDurationBox.fromDuration(
+                event.deadline.difference(DateTime.now()),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class RoundedDurationBox extends StatelessWidget {
+  final RoundedDuration duration;
+
+  const RoundedDurationBox({
+    Key? key,
+    required this.duration,
+  }) : super(key: key);
+
+  static RoundedDurationBox fromDuration(Duration duration) {
+    return RoundedDurationBox(duration: RoundedDuration.fromDuration(duration));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 75,
+      child: Column(
+        children: [
+          Text(
+            duration.amount.toString(),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              color: Colors.deepPurple.shade300,
+            ),
+          ),
+          const SizedBox(
+            height: 3,
+          ),
+          Text(
+            duration.pluralizedTersity().toUpperCase(),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class IconWithText extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final double iconSize;
+
+  const IconWithText({
+    Key? key,
+    required this.icon,
+    required this.text,
+    this.iconSize = 16,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: iconSize),
+        const SizedBox(
+          width: 5,
+        ),
+        Text(text),
+      ],
     );
   }
 }

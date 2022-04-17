@@ -38,15 +38,13 @@ class RemindMeUP extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.system,
-      home: HomePage(title: appTitle),
+      home: HomePage(),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  HomePage({Key? key}) : super(key: key);
 
   final List<Event> events = [
     Event(
@@ -115,7 +113,7 @@ class HomePage extends StatelessWidget {
                     children: const [
                       Padding(
                         padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 4),
                         child: Text(
                           'ALL EVENTS',
                           style: TextStyle(
