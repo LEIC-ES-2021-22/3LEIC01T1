@@ -59,7 +59,7 @@ class EventCard extends StatelessWidget {
                         if (event.duration != null)
                           IconWithText(
                             icon: Icons.timer_outlined,
-                            text: RoundedDuration.fromDuration(event.duration!)
+                            text: FlooredDuration.fromDuration(event.duration!)
                                 .formatted(),
                           ),
                       ],
@@ -67,7 +67,7 @@ class EventCard extends StatelessWidget {
                   ],
                 ),
               ),
-              RoundedDurationBox.fromDuration(
+              FlooredDurationBox.fromDuration(
                 event.deadline.difference(DateTime.now()),
               )
             ],
@@ -78,16 +78,16 @@ class EventCard extends StatelessWidget {
   }
 }
 
-class RoundedDurationBox extends StatelessWidget {
-  final RoundedDuration duration;
+class FlooredDurationBox extends StatelessWidget {
+  final FlooredDuration duration;
 
-  const RoundedDurationBox({
+  const FlooredDurationBox({
     Key? key,
     required this.duration,
   }) : super(key: key);
 
-  static RoundedDurationBox fromDuration(Duration duration) {
-    return RoundedDurationBox(duration: RoundedDuration.fromDuration(duration));
+  static FlooredDurationBox fromDuration(Duration duration) {
+    return FlooredDurationBox(duration: FlooredDuration.fromDuration(duration));
   }
 
   @override

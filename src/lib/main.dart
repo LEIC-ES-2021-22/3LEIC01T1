@@ -113,7 +113,7 @@ class HomePage extends StatelessWidget {
                     children: const [
                       Padding(
                         padding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 4),
                         child: Text(
                           'ALL EVENTS',
                           style: TextStyle(

@@ -1,18 +1,18 @@
 import 'package:duration/duration.dart';
 import 'package:intl/intl.dart';
 
-class RoundedDuration {
+class FlooredDuration {
   DurationTersity tersity;
   int amount;
 
-  RoundedDuration(this.tersity, this.amount);
+  FlooredDuration(this.tersity, this.amount);
 
-  static RoundedDuration fromDuration(Duration dur) {
+  static FlooredDuration fromDuration(Duration dur) {
     for (final t in DurationTersity.list) {
       var n = dur.inUnit(t);
       // stop at seconds
       if (n > 0 || t == DurationTersity.second) {
-        return RoundedDuration(t, n);
+        return FlooredDuration(t, n);
       }
     }
 
