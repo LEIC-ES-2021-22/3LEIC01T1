@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "13529435972",
+    "project_id": "remindmeup",
+    "storage_bucket": "remindmeup.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13529435972:android:787008da4c49e2398c9111",
+        "android_client_info": {
+          "package_name": "pt.up.remind_me_up"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13529435972-63ovo1an0bfp0vhpc1pseijhvkoneem5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFq8vAnz9XjSlurjJ_iYgw0vLprtSFMgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13529435972-63ovo1an0bfp0vhpc1pseijhvkoneem5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
