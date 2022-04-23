@@ -34,68 +34,76 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const Text('Sign Up', style: TextStyle(fontSize: 32)),
                   Form(
                     key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            alignLabelWithHint: true,
-                            labelText: 'Email',
-                            contentPadding: EdgeInsets.zero,
+                    child: AutofillGroup(
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              alignLabelWithHint: true,
+                              labelText: 'Email',
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                            validator: (v) =>
+                                v == null || v.length < 5 || !v.contains('@')
+                                    ? 'Invalid email'
+                                    : null,
+                            onChanged: (v) => setState(() => _email = v),
+                            autofillHints: const [AutofillHints.email],
+                            keyboardType: TextInputType.emailAddress,
                           ),
-                          validator: (v) =>
-                              v == null || v.length < 5 || !v.contains('@')
-                                  ? 'Invalid email'
-                                  : null,
-                          onChanged: (v) => setState(() => _email = v),
-                        ),
-                        const SizedBox(height: 15),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            alignLabelWithHint: true,
-                            labelText: 'Password',
-                            contentPadding: EdgeInsets.zero,
+                          const SizedBox(height: 15),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              alignLabelWithHint: true,
+                              labelText: 'Password',
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                            validator: (v) => v == null || v.runes.length < 6
+                                ? 'Minimum 6 characters'
+                                : null,
+                            obscureText: true,
+                            onChanged: (v) => setState(() => _password = v),
+                            autofillHints: const [AutofillHints.newPassword],
+                            keyboardType: TextInputType.text,
                           ),
-                          validator: (v) => v == null || v.runes.length < 6
-                              ? 'Minimum 6 characters'
-                              : null,
-                          obscureText: true,
-                          onChanged: (v) => setState(() => _password = v),
-                        ),
-                        const SizedBox(height: 15),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            alignLabelWithHint: true,
-                            labelText: 'Confirm Password',
-                            contentPadding: EdgeInsets.zero,
+                          const SizedBox(height: 15),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              alignLabelWithHint: true,
+                              labelText: 'Confirm Password',
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                            validator: (v) => v == null || v != _password
+                                ? 'Passwords must match'
+                                : null,
+                            obscureText: true,
+                            autofillHints: const [AutofillHints.newPassword],
+                            keyboardType: TextInputType.text,
                           ),
-                          validator: (v) => v == null || v != _password
-                              ? 'Passwords must match'
-                              : null,
-                          obscureText: true,
-                        ),
-                        const SizedBox(height: 20),
-                        _loading
-                            ? const SpinKitRing(color: Colors.deepPurple)
-                            : OutlinedButton(
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    setState(() => _loading = true);
-                                    await _auth.registerEmailPassword(
-                                        _email, _password);
-                                  }
+                          const SizedBox(height: 20),
+                          _loading
+                              ? const SpinKitRing(color: Colors.deepPurple)
+                              : OutlinedButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() => _loading = true);
+                                      await _auth.registerEmailPassword(
+                                          _email, _password);
+                                    }
 
-                                  setState(() => _loading = false);
-                                },
-                                child: const Text(
-                                  'SIGN UP',
-                                  style: TextStyle(
-                                    letterSpacing: 1,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                                    setState(() => _loading = false);
+                                  },
+                                  child: const Text(
+                                    'SIGN UP',
+                                    style: TextStyle(
+                                      letterSpacing: 1,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              )
-                      ],
+                                )
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 40),

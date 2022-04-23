@@ -39,66 +39,74 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Form(
                     key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            alignLabelWithHint: true,
-                            labelText: 'Email',
-                            contentPadding: EdgeInsets.zero,
+                    child: AutofillGroup(
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              alignLabelWithHint: true,
+                              labelText: 'Email',
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                            validator: (v) =>
+                                v == null || v.length < 5 || !v.contains('@')
+                                    ? 'Invalid email'
+                                    : null,
+                            onChanged: (v) => setState(() => _email = v),
+                            autofillHints: const [AutofillHints.email],
+                            keyboardType: TextInputType.emailAddress,
                           ),
-                          validator: (v) =>
-                              v == null || v.length < 5 || !v.contains('@')
-                                  ? 'Invalid email'
-                                  : null,
-                          onChanged: (v) => setState(() => _email = v),
-                        ),
-                        const SizedBox(height: 15),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            alignLabelWithHint: true,
-                            labelText: 'Password',
-                            contentPadding: EdgeInsets.zero,
+                          const SizedBox(height: 15),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              alignLabelWithHint: true,
+                              labelText: 'Password',
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                            validator: (v) => v == null || v.runes.length < 6
+                                ? 'Minimum 6 characters'
+                                : null,
+                            obscureText: true,
+                            onChanged: (v) => setState(() => _password = v),
+                            autofillHints: const [AutofillHints.password],
+                            keyboardType: TextInputType.text,
                           ),
-                          validator: (v) => v == null || v.runes.length < 6
-                              ? 'Minimum 6 characters'
-                              : null,
-                          obscureText: true,
-                          onChanged: (v) => setState(() => _password = v),
-                        ),
-                        const SizedBox(height: 20),
-                        _loading
-                            ? const SpinKitRing(color: Colors.deepPurple)
-                            : OutlinedButton(
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    setState(() => _loading = true);
-                                    FirebaseAuthException? res = await _auth
-                                        .loginEmailPassword(_email, _password);
-                                    if (res != null) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(res.message ??
-                                              'Something went wrong'),
-                                        ),
-                                      );
+                          const SizedBox(height: 20),
+                          _loading
+                              ? const SpinKitRing(color: Colors.deepPurple)
+                              : OutlinedButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() => _loading = true);
+                                      FirebaseAuthException? res =
+                                          await _auth.loginEmailPassword(
+                                              _email, _password);
+                                      if (res != null) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(res.message ??
+                                                'Something went wrong'),
+                                          ),
+                                        );
+                                      }
                                     }
 
-                                  }
-
-                                  setState(() => _loading = false);
-                                },
-                                child: const Text(
-                                  'SIGN IN',
-                                  style: TextStyle(
-                                    letterSpacing: 1,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                                    if (mounted) {
+                                      setState(() => _loading = false);
+                                    }
+                                  },
+                                  child: const Text(
+                                    'SIGN IN',
+                                    style: TextStyle(
+                                      letterSpacing: 1,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              )
-                      ],
+                                )
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 40),
