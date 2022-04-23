@@ -91,7 +91,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           _email, _password);
                                     }
 
-                                    setState(() => _loading = false);
+                                    if (mounted) {
+                                      setState(() => _loading = false);
+                                    }
                                   },
                                   child: const Text(
                                     'SIGN UP',
