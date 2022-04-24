@@ -4,8 +4,12 @@ import 'package:flutter/foundation.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Stream<User?> get user {
+  Stream<User?> get userStream {
     return _auth.authStateChanges();
+  }
+
+  User? get user {
+    return _auth.currentUser;
   }
 
   Future registerEmailPassword(String email, String password) async {

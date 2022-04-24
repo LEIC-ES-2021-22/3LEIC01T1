@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 v == null || v.length < 5 || !v.contains('@')
                                     ? 'Invalid email'
                                     : null,
-                            onChanged: (v) => setState(() => _email = v),
+                            onChanged: (v) => setState(() => _email = v.trim()),
                             autofillHints: const [AutofillHints.email],
                             keyboardType: TextInputType.emailAddress,
                           ),
@@ -69,28 +69,29 @@ class _LoginScreenState extends State<LoginScreen> {
                             obscureText: true,
                             onChanged: (v) => setState(() => _password = v),
                             autofillHints: const [AutofillHints.password],
-                            keyboardType: TextInputType.text,
-                          ),
-                          const SizedBox(height: 20),
-                          _loading
-                              ? const SpinKitRing(color: Colors.deepPurple)
-                              : OutlinedButton(
-                                  onPressed: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      setState(() => _loading = true);
-                                      FirebaseAuthException? res =
-                                          await _auth.loginEmailPassword(
-                                              _email, _password);
-                                      if (res != null) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(res.message ??
-                                                'Something went wrong'),
-                                          ),
-                                        );
-                                      }
+                            keyboardType: TextInputType.text,),
+                        const SizedBox(height: 20),
+                        _loading
+                            ? const SpinKitRing(
+                                color: Colors.deepPurple,
+                                lineWidth: 5,
+                              )
+                            : OutlinedButton(
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    setState(() => _loading = true);
+                                    FirebaseAuthException? res = await _auth
+                                        .loginEmailPassword(_email, _password);
+                                    if (res != null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(res.message ??
+                                              'Something went wrong'),
+                                        ),
+                                      );
                                     }
+                                  }
 
                                     if (mounted) {
                                       setState(() => _loading = false);
@@ -112,7 +113,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 40),
                   InkWell(
                     onTap: () => widget.toggleScreen(),
-                    child: const Text("Don't have an account? Sign Up"),
+                    child: const Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Text("Don't have an account? Sign Up"),
+                    ),
                   ),
                   if (kDebugMode) ...[
                     const SizedBox(height: 50),

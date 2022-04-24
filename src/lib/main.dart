@@ -21,7 +21,7 @@ class RemindMeUP extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider.value(
-      value: AuthService().user,
+      value: AuthService().userStream,
       initialData: null,
       child: MaterialApp(
         title: appTitle,

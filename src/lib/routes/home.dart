@@ -17,9 +17,11 @@ class Home extends StatelessWidget {
       teacher: 'Ademar Aguiar',
     ),
     Event(
-        name: 'Gib eg',
-        deadline: DateTime.now().add(const Duration(days: 1)),
-        course: 'Okayeg'),
+      name: 'Teste 1',
+      course: 'LCOM',
+      duration: const Duration(hours: 2),
+      deadline: DateTime.now().add(const Duration(days: 1)),
+    ),
     Event(
         name: 'Gib eg3',
         deadline: DateTime.now().add(const Duration(days: 3)),
@@ -56,7 +58,13 @@ class Home extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return SimpleDialog(
-                        title: const Text('Temp'),
+                        titleTextStyle: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        title: Text(_auth.user?.displayName ??
+                            _auth.user?.email ??
+                            'User'),
                         children: <Widget>[
                           SimpleDialogOption(
                             onPressed: () {

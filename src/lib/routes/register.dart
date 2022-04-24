@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 v == null || v.length < 5 || !v.contains('@')
                                     ? 'Invalid email'
                                     : null,
-                            onChanged: (v) => setState(() => _email = v),
+                            onChanged: (v) => setState(() => _email = v.trim()),
                             autofillHints: const [AutofillHints.email],
                             keyboardType: TextInputType.emailAddress,
                           ),
@@ -79,17 +79,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             obscureText: true,
                             autofillHints: const [AutofillHints.newPassword],
                             keyboardType: TextInputType.text,
-                          ),
-                          const SizedBox(height: 20),
-                          _loading
-                              ? const SpinKitRing(color: Colors.deepPurple)
-                              : OutlinedButton(
-                                  onPressed: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      setState(() => _loading = true);
-                                      await _auth.registerEmailPassword(
-                                          _email, _password);
-                                    }
+                        ),
+                        const SizedBox(height: 20),
+                        _loading
+                            ? const SpinKitRing(
+                                color: Colors.deepPurple,
+                                lineWidth: 5,
+                              )
+                            : OutlinedButton(
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    setState(() => _loading = true);
+                                    await _auth.registerEmailPassword(
+                                      _email,
+                                      _password,
+                                    );
+                                  }
 
                                     if (mounted) {
                                       setState(() => _loading = false);
@@ -111,7 +116,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(height: 40),
                   InkWell(
                     onTap: () => widget.toggleScreen(),
-                    child: const Text('Already have an account? Sign In'),
+                    child: const Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Text('Already have an account? Sign In'),
+                    ),
                   ),
                   if (kDebugMode) ...[
                     const SizedBox(height: 50),
