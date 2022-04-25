@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,16 +21,19 @@ class RemindMeUP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider.value(
+    return StreamProvider<User?>.value(
       value: AuthService().userStream,
       initialData: null,
       child: MaterialApp(
         title: appTitle,
-        theme: ThemeData(),
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+        ),
         darkTheme: ThemeData(
           brightness: Brightness.dark,
-          scaffoldBackgroundColor: const Color(0xFF1b1a2d),
           primarySwatch: Colors.deepPurple,
+          toggleableActiveColor: Colors.deepPurple,
+          scaffoldBackgroundColor: const Color(0xFF1b1a2d),
           cardColor: const Color(0xff23223b),
           cardTheme: CardTheme(
             shape: RoundedRectangleBorder(
