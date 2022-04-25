@@ -75,9 +75,12 @@ class Home extends StatelessWidget {
 }
 
 class DefaultScaffold extends StatelessWidget {
-  const DefaultScaffold({Key? key, required this.child}) : super(key: key);
+  const DefaultScaffold(
+      {Key? key, required this.child, this.floatingActionButton})
+      : super(key: key);
 
   final Widget? child;
+  final Widget? floatingActionButton;
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +94,7 @@ class DefaultScaffold extends StatelessWidget {
           )
         ],
       ),
+      floatingActionButton: floatingActionButton,
     );
   }
 }
