@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:remind_me_up/firebase_options.dart';
 import 'package:remind_me_up/routes/auth_wrapper.dart';
+import 'package:remind_me_up/routes/authenticate.dart';
+import 'package:remind_me_up/routes/home.dart';
 import 'package:remind_me_up/services/auth.dart';
 
 void main() async {
@@ -15,6 +17,10 @@ void main() async {
   runApp(const RemindMeUP());
 }
 
+const routeRoot = '/';
+const routeHome = '/home';
+const routeAuth = '/auth';
+
 class RemindMeUP extends StatelessWidget {
   const RemindMeUP({Key? key}) : super(key: key);
   static const appTitle = 'RemindMeUP';
@@ -22,39 +28,59 @@ class RemindMeUP extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User?>.value(
-      value: AuthService().userStream,
-      initialData: null,
-      child: MaterialApp(
-        title: appTitle,
-        theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
-        ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          primarySwatch: Colors.deepPurple,
-          toggleableActiveColor: Colors.deepPurple,
-          scaffoldBackgroundColor: const Color(0xFF1b1a2d),
-          cardColor: const Color(0xff23223b),
-          cardTheme: CardTheme(
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(
-                color: Colors.white10,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(10),
+        value: AuthService().userStream,
+        initialData: null,
+        builder: (context, widget) {
+          return MaterialApp(
+            title: appTitle,
+            theme: ThemeData(
+              primarySwatch: Colors.deepPurple,
             ),
-          ),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Color(0xFF1b1a2d),
-            elevation: 0,
-          ),
-          drawerTheme: const DrawerThemeData(
-            backgroundColor: Color(0xFF1b1a2d),
-          ),
-        ),
-        themeMode: ThemeMode.system,
-        home: const AuthWrapper(),
-      ),
-    );
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
+              primarySwatch: Colors.deepPurple,
+              toggleableActiveColor: Colors.deepPurple,
+              scaffoldBackgroundColor: const Color(0xFF1b1a2d),
+              cardColor: const Color(0xff23223b),
+              cardTheme: CardTheme(
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    color: Colors.white10,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              appBarTheme: const AppBarTheme(
+                backgroundColor: Color(0xFF1b1a2d),
+                elevation: 0,
+              ),
+              drawerTheme: const DrawerThemeData(
+                backgroundColor: Color(0xFF1b1a2d),
+              ),
+            ),
+            themeMode: ThemeMode.system,
+            initialRoute:
+                context.watch<User?>() != null ? routeHome : routeAuth,
+            onGenerateRoute: (settings) {
+              Widget page;
+              switch (settings.name) {
+                case routeHome:
+                  page = Home();
+                  break;
+                case routeAuth:
+                  page = const Authenticate();
+                  break;
+                default:
+                  throw Exception('Unknown route: ${settings.name}');
+              }
+
+              return MaterialPageRoute(
+                builder: (context) => page,
+                settings: settings,
+              );
+            },
+          );
+        });
   }
 }

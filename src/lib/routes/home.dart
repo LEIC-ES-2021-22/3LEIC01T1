@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:remind_me_up/event_card.dart';
 import 'package:remind_me_up/models/event.dart';
+import 'package:remind_me_up/routes/auth_wrapper.dart';
 import 'package:remind_me_up/routes/courses.dart';
 import 'package:remind_me_up/services/auth.dart';
 
@@ -125,12 +126,18 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
               title: const Text('Home'),
-              onTap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()))),
+              onTap: () => Navigator.pushAndRemoveUntil(
+                  context,
+                MaterialPageRoute(builder: (context) => Home()),
+                    (route) => false,
+              )),
           ListTile(
             title: const Text('Courses'),
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const CoursesScreen())),
+            onTap: () => Navigator.pushAndRemoveUntil(
+              context,
+                MaterialPageRoute(builder: (context) => const CoursesScreen()),
+              (route) => false,
+            ),
           )
         ],
       ),
