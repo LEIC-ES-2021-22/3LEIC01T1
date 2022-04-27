@@ -128,12 +128,16 @@ class DefaultDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Home'),
             onTap: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Home())),
+              context,
+              MaterialPageRoute(builder: (context) => const AuthWrapper()),
+            ),
           ),
           ListTile(
             title: const Text('Courses'),
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const CoursesScreen())),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CoursesScreen()),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.add_circle),
@@ -179,7 +183,11 @@ class DefaultAppBar extends StatelessWidget {
                     SimpleDialogOption(
                       onPressed: () {
                         _auth.logout();
-                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AuthWrapper()),
+                        );
                       },
                       child: const Text('Sign Out'),
                     ),
