@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:remind_me_up/event_card.dart';
 import 'package:remind_me_up/models/event.dart';
+import 'package:remind_me_up/routes/auth_wrapper.dart';
 import 'package:remind_me_up/routes/create_event.dart';
 import 'package:remind_me_up/routes/courses.dart';
 import 'package:remind_me_up/services/auth.dart';
