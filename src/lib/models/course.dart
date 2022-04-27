@@ -3,5 +3,10 @@ class Course {
   final String name;
   final String shortName;
 
-  Course({required this.uid,required this.name, required this.shortName});
+  Course({required this.uid, required this.name, required this.shortName});
+
+  @override
+  String toString() {
+    return '($shortName)$name';
+  }
 }

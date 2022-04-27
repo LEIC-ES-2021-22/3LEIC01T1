@@ -15,7 +15,7 @@ class CoursesScreen extends StatefulWidget {
 class _CoursesScreenState extends State<CoursesScreen> {
   List<Course> _courses = [];
   Set<String> _selected = {};
-  Set<String> _remote = {};
+  Set<String> _remote = {}; // TODO make this a stream to sync on FAB save
 
   bool _loading = true;
 
@@ -49,9 +49,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
       floatingActionButton: _loading || setEquals(_remote, _selected)
           ? null
           : FloatingActionButton(
-        onPressed: () async {
-        DatabaseService().saveUserCourses(_selected);
-        // TODO: Update firestore
+        onPressed: () {
+        DatabaseService().saveUserCourses(_selected); // TODO: feedback
       },
         child: const Icon(Icons.save),
       ),
