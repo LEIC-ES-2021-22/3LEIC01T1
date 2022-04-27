@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:remind_me_up/firebase_options.dart';
 import 'package:remind_me_up/routes/auth_wrapper.dart';
-import 'package:remind_me_up/routes/authenticate.dart';
-import 'package:remind_me_up/routes/home.dart';
 import 'package:remind_me_up/services/auth.dart';
 
 void main() async {
@@ -17,9 +15,9 @@ void main() async {
   runApp(const RemindMeUP());
 }
 
-const routeRoot = '/';
-const routeHome = '/home';
-const routeAuth = '/auth';
+// const routeRoot = '/';
+// const routeHome = '/home';
+// const routeAuth = '/auth';
 
 class RemindMeUP extends StatelessWidget {
   const RemindMeUP({Key? key}) : super(key: key);
@@ -60,26 +58,7 @@ class RemindMeUP extends StatelessWidget {
               ),
             ),
             themeMode: ThemeMode.system,
-            initialRoute:
-                context.watch<User?>() != null ? routeHome : routeAuth,
-            onGenerateRoute: (settings) {
-              Widget page;
-              switch (settings.name) {
-                case routeHome:
-                  page = Home();
-                  break;
-                case routeAuth:
-                  page = const Authenticate();
-                  break;
-                default:
-                  throw Exception('Unknown route: ${settings.name}');
-              }
-
-              return MaterialPageRoute(
-                builder: (context) => page,
-                settings: settings,
-              );
-            },
+            home: const AuthWrapper(),
           );
         });
   }
