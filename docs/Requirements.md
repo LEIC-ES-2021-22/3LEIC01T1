@@ -309,7 +309,7 @@ Useful but secondary function
 M
 
 
-## User Story [10]()
+## User Story [10](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/16)
 
 As an app user, I want to be able to have create an account, so that I can have all my settings synchronised across all my devices.
 
@@ -336,14 +336,14 @@ Core function
 XL
 
 
-## User Story [11]()
+## User Story [11](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/17)
 
 As an app user, I want to be able to choose the courses whose events I'm interested in, so that I only see and receive notifications for events I care about.
 
 #### Mockup
 
 <p align="center" justify="center">
-  <img src="../images/us10_mockup.png">
+  <img src="../images/us11_mockup.png">
 </p>
 
 #### Acceptance Test
