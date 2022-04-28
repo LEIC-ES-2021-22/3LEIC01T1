@@ -276,8 +276,9 @@ As an app user, I want to be able to sign in to my account, so that I can have a
 
 ```gherkin
 Given I want to have my settings on this device
-When I open the application and I'm not already authenticated
-Then a window should appear to log in with my credentials
+And I'm not already authenticated 
+When I sign in with my credentials
+Then I see the home screen
 ```
 
 #### Value
@@ -328,9 +329,9 @@ As an app user, I want to be able to have create an account, so that I can have 
 #### Acceptance Test
 
 ```gherkin
-Given I want to have the same settings on all my devices
-When I'm not already authenticated and I click the sign up button
-Then a Sign Up window should appear
+Given I'm not already authenticated
+When I sign up with my credentials
+Then my account is created and I see the home screen
 ```
 
 #### Value
