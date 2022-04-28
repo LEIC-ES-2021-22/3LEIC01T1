@@ -62,19 +62,23 @@ Example:
 
 2. As a student, I want to know if a teacher made changes to any event I'm interested in, so that I can reorganize my agenda according to the changes.
 
-3. As a teacher, I want to be able to create a event whenever deemed as necessary and notify the students so that they can take action as soon as possible.
+3. As a teacher, I want to be able to create an event whenever deemed necessary so that interested students can be notified and take action as soon as possible.
 
-4. As a teacher, I want to be able to edit or update a event whenever deemed as necessary and notify the students so that they can be aware as soon as possible.
+4. As a teacher, I want to be able to edit or update an event whenever deemed necessary so that the students can be notified and be aware as soon as possible.
 
-5. As an app user, I want to see a preview of all my events, so that I can easily have an idea of all the remaining events.
+5. As an app user, I want to see a list preview of all upcoming events, so that I can easily plan out my work schedule.
 
-6. As an app user, I want to apply filter to the events, so that I can find out the events that I am interested in more easily.
+6. As an app user, I want to filter the events by date, so that I can easily find out all the upcoming events in a certain time window.
 
 7. As an app user, I want to see all the detail about a event, so that I can have a better understanding of what the event is about.
 
-8. As an app user, I want to be able to have an account and sign in, so that I can have all my events synchronized in all the devices.
+8. As an app user, I want to be able to sign in to my account, so that I can have all my settings synchronised to the current device.
 
 9. As an app user, I want to be able to recover my password, so that I can have a new password if I lose it or simply want to change it.
+
+10. As an app user, I want to be able to have create an account, so that I can have all my settings synchronised across all my devices.
+
+11. As an app user, I want to be able to choose the courses whose events I'm interested in, so that I only see and receive notifications for events I care about.
 
 ## User Story [1](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/4)
 
@@ -87,7 +91,7 @@ As a student, I want to receive deadline reminders for events that I am interest
 
 #### Acceptance Test
 ```gherkin
-Given I want to be aware of my deadlines,
+Given a event has a deadline in 24 hours or less,
 When I turn on my phone screen,
 Then I can read the notification and know brief information about it.
 ```
@@ -112,7 +116,7 @@ As a student, I want to know if a teacher made changes to any event I'm interest
 #### Acceptance Test
 
 ```gherkin
-Given that there was a change in an event and I would like to know as soon as possible,
+Given that there was a change in an event and 'notify-event-updates' is enabled,
 When I turn on my phone screen,
 Then I can read the notification and know a brief detail about the change
 ```
@@ -127,7 +131,7 @@ M
 
 ## User Story [3](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/6)
 
-As a teacher, I want to be able to create an event whenever deemed necessary so that students can be notified and take action as soon as possible.
+As a teacher, I want to be able to create an event whenever deemed necessary so that interested students can be notified and take action as soon as possible.
 
 #### Mockup
 
@@ -146,9 +150,10 @@ XL
 #### Acceptance Test
 
 ```gherkin
-Given I want to create an event for the students
-When I open the event section
-Then I want to fill up the details of an event and post it
+Given I am a teacher
+When I click the New Event button
+And I fill all required event information
+Then an event is created
 ```
 
 ## User Story [4](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/7)
@@ -165,9 +170,10 @@ As a teacher, I want to be able to edit or update an event whenever deemed neces
 #### Acceptance Test
 
 ```gherkin
-Given that I want to edit or update an event
-When I enter the app
-Then there should be a form for which I can easily update the details of an event
+Given I am a teacher and I want to edit or update an event
+When I click the Edit Event button
+And I edit the form fields I want
+Then the event will be updated with new information
 ```
 
 #### Value
@@ -217,9 +223,9 @@ As an app user, I want to filter the events by date, so that I can easily find o
 #### Acceptance Test
 
 ```gherkin
-Given I want to see events of specific deadlines,
+Given I want to see events with deadlines within selected timewindow,
 When I open the sidebar and choose a time filter,
-Then a list of filtered events should show up.
+Then a filtered list of events should show up.
 ```
 
 #### Value
@@ -243,9 +249,9 @@ As an app user, I want to see all the detail about a event, so that I can have a
 #### Acceptance Test
 
 ```gherkin
-Given I want to know all the detail about an event,
+Given I want to know all the details about an event,
 When I click on an event in a section with events,
-Then I should see all the detail of the selected event
+Then I should see a page with all the details of the selected event
 ```
 
 #### Value
@@ -324,7 +330,7 @@ As an app user, I want to be able to have create an account, so that I can have 
 ```gherkin
 Given I want to have the same settings on all my devices
 When I'm not already authenticated and I click the sign up button
-Then a window should appear to sign up
+Then a Sign Up window should appear
 ```
 
 #### Value
@@ -351,7 +357,8 @@ As an app user, I want to be able to choose the courses whose events I'm interes
 ```gherkin
 Given I'm only in certain courses' events
 When I click the courses page
-Then a window should appear to choose the respective courses
+And I select the courses I'm interested in
+Then the selected courses should be saved in my settings
 ```
 
 #### Value
