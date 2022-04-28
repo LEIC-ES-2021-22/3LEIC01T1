@@ -53,6 +53,10 @@ class HomePage extends StatelessWidget {
       course: 'ESOF',
       duration: const Duration(hours: 2),
       teacher: 'Ademar Aguiar',
+      description: 'Recordo que esta apresentação substitui as aulas teóricas'
+          ' de 24 de Março 2022. É muito importante que TODOS instalem o Flutter'
+          ', se ainda não o fizeram, e experimentem pelo menos um dos exemplos,'
+          'resolvendo dificuldades de instalação junto dos monitores' ,
     ),
     Event(
         name: 'Gib eg',
@@ -98,6 +102,7 @@ class HomePage extends StatelessWidget {
                 ),
                 child: const CircleAvatar(
                   backgroundImage: AssetImage('assets/okayeg.png'),
+
                 ),
               ),
               const SizedBox(width: 15)
@@ -139,3 +144,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
+
+
