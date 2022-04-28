@@ -2,8 +2,8 @@
 
 ### Use Case Model 
 
- <p align="center" justify="center">
-  <img src="../images/use-case-diagram.drawio.png">
+<p align="center" justify="center">
+    <img src="../images/use-case-diagram.drawio.png">
 </p>
 
 |||
@@ -127,7 +127,7 @@ M
 
 ## User Story [3](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/6)
 
-As a teacher, I want to be able to create an event whenever deemed as necessary and notify the students so that they can take action as soon as possible.
+As a teacher, I want to be able to create an event whenever deemed necessary so that students can be notified and take action as soon as possible.
 
 #### Mockup
 
@@ -153,7 +153,7 @@ Then I want to fill up the details of an event and post it
 
 ## User Story [4](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/7)
 
-As a teacher, I want to be able to edit or update an event whenever deemed as necessary and notify the students so that they can be aware as soon as possible.
+As a teacher, I want to be able to edit or update an event whenever deemed necessary so that the students can be notified and be aware as soon as possible.
 
 #### Mockup
 
@@ -180,7 +180,7 @@ L
 
 ## User Story [5](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/8)
 
-As an app user, I want to see a preview of all my events, so that I can easily have an idea of all the remaining events.
+As an app user, I want to see a list preview of all upcoming events, so that I can easily plan out my work schedule.
 
 #### Mockup
 
@@ -206,7 +206,7 @@ XL
 
 ## User Story [6](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/9)
 
-As an app user, I want to apply filter to the events, so that I can find out the events that I am interested in more easily.
+As an app user, I want to filter the events by date, so that I can easily find out all the upcoming events in a certain time window.
 
 #### Mockup
 
@@ -258,7 +258,7 @@ L
 
 ## User Story [8](https://github.com/LEIC-ES-2021-22/3LEIC01T1/issues/11):
 
-As an app user, I want to be able to have an account and sign in, so that I can have all my events synchronized in all the devices.
+As an app user, I want to be able to sign in to my account, so that I can have all my settings synchronised to the current device.
 
 #### Mockup
 
@@ -269,8 +269,8 @@ As an app user, I want to be able to have an account and sign in, so that I can 
 #### Acceptance Test
 
 ```gherkin
-Given I want to have the same content on all devices
-When I open the application for the first time
+Given I want to have my settings on this device
+When I open the application and I'm not already authenticated
 Then a window should appear to log in with my credentials
 ```
 
@@ -307,3 +307,57 @@ Useful but secondary function
 #### Effort
 
 M
+
+
+## User Story [10]()
+
+As an app user, I want to be able to have create an account, so that I can have all my settings synchronised across all my devices.
+
+#### Mockup
+
+<p align="center" justify="center">
+  <img src="../images/us10_mockup.png">
+</p>
+
+#### Acceptance Test
+
+```gherkin
+Given I want to have the same settings on all my devices
+When I'm not already authenticated and I click the sign up button
+Then a window should appear to sign up
+```
+
+#### Value
+
+Core function
+
+#### Effort
+
+XL
+
+
+## User Story [11]()
+
+As an app user, I want to be able to choose the courses whose events I'm interested in, so that I only see and receive notifications for events I care about.
+
+#### Mockup
+
+<p align="center" justify="center">
+  <img src="../images/us10_mockup.png">
+</p>
+
+#### Acceptance Test
+
+```gherkin
+Given I'm only in certain courses' events
+When I click the courses page
+Then a window should appear to choose the respective courses
+```
+
+#### Value
+
+Core function
+
+#### Effort
+
+XL
