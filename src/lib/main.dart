@@ -56,6 +56,10 @@ class RemindMeUP extends StatelessWidget {
               drawerTheme: const DrawerThemeData(
                 backgroundColor: Color(0xFF1b1a2d),
               ),
+              floatingActionButtonTheme: const FloatingActionButtonThemeData(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.deepPurple,
+              ),
             ),
             themeMode: ThemeMode.system,
             home: const AuthWrapper(),
