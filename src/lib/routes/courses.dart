@@ -15,7 +15,7 @@ class CoursesScreen extends StatefulWidget {
 class _CoursesScreenState extends State<CoursesScreen> {
   List<Course> _courses = [];
   Set<String> _selected = {};
-  Set<String> _remote = {}; // TODO make this a stream to sync on FAB save
+  Set<String> _remote = {};
 
   bool _loading = true;
 
@@ -37,6 +37,22 @@ class _CoursesScreenState extends State<CoursesScreen> {
     getData();
   }
 
+  void updateCourses() async {
+    DatabaseService().saveUserCourses(_selected);
+
+    var newSet = await DatabaseService().userCourses;
+
+    setState(() {
+      _remote = newSet;
+      _selected = Set.from(newSet);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+          content: Text("Courses updated"), duration: Duration(seconds: 1)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (kDebugMode) {
@@ -49,55 +65,50 @@ class _CoursesScreenState extends State<CoursesScreen> {
       floatingActionButton: _loading || setEquals(_remote, _selected)
           ? null
           : FloatingActionButton(
-        onPressed: () {
-        DatabaseService().saveUserCourses(_selected); // TODO: feedback
-      },
-        child: const Icon(Icons.save),
-      ),
+              onPressed: updateCourses,
+              child: const Icon(Icons.save),
+            ),
       child: _loading
           ? const SpinKitRing(
-        color: Colors.deepPurple,
-        lineWidth: 5,
-      )
+              color: Colors.deepPurple,
+              lineWidth: 5,
+            )
           : Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-            child: Text(
-              'AVAILABLE COURSES',
-              style: TextStyle(
-                letterSpacing: 2,
-                fontWeight: FontWeight.bold,
-              ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                  child: Text(
+                    'AVAILABLE COURSES',
+                    style: TextStyle(
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                ListView.separated(
+                  padding: const EdgeInsets.only(bottom: 75),
+                  separatorBuilder: (context, index) => const Divider(
+                    height: 1,
+                    thickness: 1,
+                  ),
+                  itemCount: _courses.length,
+                  itemBuilder: (context, index) {
+                    final course = _courses[index];
+                    return CheckboxListTile(
+                      title: Text(course.name),
+                      subtitle: Text(course.shortName),
+                      value: _selected.contains(course.uid),
+                      onChanged: (bool? value) => setState(() => value == true
+                          ? _selected.add(course.uid)
+                          : _selected.remove(course.uid)),
+                    );
+                  },
+                  primary: false,
+                  shrinkWrap: true,
+                ),
+              ],
             ),
-          ),
-          ListView.separated(
-            padding: const EdgeInsets.only(bottom: 75),
-            separatorBuilder: (context, index) =>
-            const Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            itemCount: _courses.length,
-            itemBuilder: (context, index) {
-              final course = _courses[index];
-              return CheckboxListTile(
-                title: Text(course.name),
-                subtitle: Text(course.shortName),
-                value: _selected.contains(course.uid),
-                onChanged: (bool? value) =>
-                    setState(() =>
-                    value == true
-                        ? _selected.add(course.uid)
-                        : _selected.remove(course.uid)),
-              );
-            },
-            primary: false,
-            shrinkWrap: true,
-          ),
-        ],
-      ),
     );
   }
 }
