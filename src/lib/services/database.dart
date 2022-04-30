@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:remind_me_up/models/course.dart';
+import 'package:remind_me_up/models/event.dart';
 import 'package:remind_me_up/services/auth.dart';
 
 class DatabaseService {
@@ -50,21 +51,31 @@ class DatabaseService {
     });
   }
 
-// UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
-//   return UserData(
-//     uid: uid,
-//     courses:
-//         (snapshot.get('courses') as List).map((id) => id as String).toSet(),
-//   );
-// }
-//
-// Stream<UserData?> get userData {
-//   return FirebaseFirestore.instance
-//       .collection('user_data')
-//       .doc(uid)
-//       .snapshots()
-//       .map(_userDataFromSnapshot);
-// }
+  Future<List<QueryDocumentSnapshot<Event>>> get userEvents async {
+    var courses = (await userCourses).toList();
+    print(courses);
+    return await FirebaseFirestore.instance
+        .collection('events')
+        .withConverter<Event>(
+          fromFirestore: (snapshot, _) => Event.fromJson(snapshot.data()!),
+          toFirestore: (event, _) => event.toJson(),
+        )
+        .get().then((snapshot) => snapshot.docs);
+  }
 
-// final CollectionReference eventCollection = FirebaseFirestore.instance.collection('events');
+// final List<Event> events = [
+//   Event(
+//     name: 'Invited talk by Prof. Pimenta Monteiro',
+//     deadline: DateTime.now().add(const Duration(minutes: 22)),
+//     courseId: 'ESOF',
+//     duration: const Duration(hours: 2).inMicroseconds,
+//     teacher: 'Ademar Aguiar',
+//   ),
+//   Event(
+//     name: 'Teste 1',
+//     courseId: 'LCOM',
+//     duration: const Duration(hours: 2),
+//     deadline: DateTime.now().add(const Duration(days: 1)),
+//   ),
+// ];
 }

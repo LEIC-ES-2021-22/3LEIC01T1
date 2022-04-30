@@ -43,12 +43,11 @@ class EventCard extends StatelessWidget {
                       spacing: 15,
                       runSpacing: 5,
                       children: [
-                        IconWithText(icon: Icons.school, text: event.course),
-                        if (event.teacher != null)
-                          IconWithText(
-                            icon: Icons.person,
-                            text: event.teacher!,
-                          ),
+                        IconWithText(icon: Icons.school, text: event.courseId),
+                        IconWithText(
+                          icon: Icons.person,
+                          text: event.teacherId,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 5),
@@ -59,7 +58,7 @@ class EventCard extends StatelessWidget {
                         IconWithText(
                           icon: Icons.calendar_month,
                           text: DateFormat("HH:MM E, dd MMMM yyyy")
-                              .format(event.deadline),
+                              .format(event.deadline.toDate()),
                         ),
                         if (event.duration != null)
                           IconWithText(
@@ -73,7 +72,7 @@ class EventCard extends StatelessWidget {
                 ),
               ),
               FlooredDurationBox.fromDuration(
-                event.deadline.difference(DateTime.now()),
+                event.deadline.toDate().difference(DateTime.now()),
               )
             ],
           ),

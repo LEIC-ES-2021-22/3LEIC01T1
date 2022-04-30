@@ -79,22 +79,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             obscureText: true,
                             autofillHints: const [AutofillHints.newPassword],
                             keyboardType: TextInputType.text,
-                        ),
-                        const SizedBox(height: 20),
-                        _loading
-                            ? const SpinKitRing(
-                                color: Colors.deepPurple,
-                                lineWidth: 5,
-                              )
-                            : OutlinedButton(
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    setState(() => _loading = true);
-                                    await _auth.registerEmailPassword(
-                                      _email,
-                                      _password,
-                                    );
-                                  }
+                          ),
+                          const SizedBox(height: 20),
+                          _loading
+                              ? const SpinKitRing(
+                                  color: Colors.deepPurple,
+                                  lineWidth: 5,
+                                )
+                              : OutlinedButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() => _loading = true);
+                                      await _auth.registerEmailPassword(
+                                        _email,
+                                        _password,
+                                      );
+                                    }
 
                                     if (mounted) {
                                       setState(() => _loading = false);
