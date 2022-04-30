@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:remind_me_up/util.dart';
 
 import 'package:remind_me_up/models/event.dart';
+import 'package:remind_me_up/event_route.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -16,7 +17,10 @@ class EventCard extends StatelessWidget {
         customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        onTap: () => Navigator.pushNamed(context, '/event', arguments: event),
+        onTap: () =>  Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>  SecondRoute(event: event)),
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
           child: Row(
@@ -143,3 +147,6 @@ class IconWithText extends StatelessWidget {
     );
   }
 }
+
+
+
