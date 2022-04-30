@@ -40,8 +40,6 @@ class RemindMeUP extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-),
-          ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xFF1b1a2d),
             elevation: 0,
@@ -56,7 +54,3 @@ class RemindMeUP extends StatelessWidget {
     );
   }
 }
-
-
-
-
