@@ -56,7 +56,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
   @override
   Widget build(BuildContext context) {
     if (kDebugMode) {
-      print("_courses: $_courses");
+      //print("_courses: $_courses");
       print("_selected: $_selected");
       print("_remote: $_remote");
     }

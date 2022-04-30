@@ -1,48 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:remind_me_up/event_card.dart';
 import 'package:remind_me_up/models/event.dart';
 import 'package:remind_me_up/routes/auth_wrapper.dart';
 import 'package:remind_me_up/routes/courses.dart';
 import 'package:remind_me_up/services/auth.dart';
+import 'package:remind_me_up/services/database.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
-
-  final List<Event> events = [
-    Event(
-      name: 'Invited talk by Prof. Pimenta Monteiro',
-      deadline: DateTime.now().add(const Duration(minutes: 22)),
-      course: 'ESOF',
-      duration: const Duration(hours: 2),
-      teacher: 'Ademar Aguiar',
-    ),
-    Event(
-      name: 'Teste 1',
-      course: 'LCOM',
-      duration: const Duration(hours: 2),
-      deadline: DateTime.now().add(const Duration(days: 1)),
-    ),
-    Event(
-        name: 'Gib eg3',
-        deadline: DateTime.now().add(const Duration(days: 3)),
-        course: 'Okayeg2'),
-    Event(
-        name: 'Gib eg4',
-        deadline: DateTime.now().add(const Duration(days: 4)),
-        course: 'Okayeg3'),
-    Event(
-        name: 'Gib eg5',
-        deadline: DateTime.now().add(const Duration(days: 5)),
-        course: 'Okayeg4'),
-    Event(
-        name: 'Gib eg6',
-        deadline: DateTime.now().add(const Duration(days: 5)),
-        course: 'Okayeg6'),
-    Event(
-        name: 'Gib eg6',
-        deadline: DateTime.now().add(const Duration(days: 5)),
-        course: 'Okayeg6'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +32,26 @@ class Home extends StatelessWidget {
                 ),
               ],
             ),
-            ...events.map((e) => EventCard(event: e)).toList(),
+            FutureBuilder<List<QueryDocumentSnapshot<Event>>>(
+              future: DatabaseService().userEvents,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text('Loading...');
+                }
+
+                print(snapshot.data);
+
+                return Column(
+                  children: snapshot.data!
+                      .map((e) => EventCard(event: e.data()))
+                      .toList(),
+                );
+              },
+            )
           ],
         ),
       ),
