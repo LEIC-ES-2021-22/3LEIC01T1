@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:remind_me_up/routes/event_description.dart';
 import 'package:remind_me_up/util.dart';
 
 import 'package:remind_me_up/models/event.dart';
@@ -16,7 +17,11 @@ class EventCard extends StatelessWidget {
         customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        onTap: () => Navigator.pushNamed(context, '/event', arguments: event),
+        onTap: () => //Navigator.pushNamed(context, '/event', arguments: event),
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>  EventDescription(event: event)),
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
           child: Row(
