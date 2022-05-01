@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/models/event.dart';
+import 'package:remind_me_up/models/user.dart';
 import 'package:remind_me_up/services/auth.dart';
 
 class DatabaseService {
@@ -12,70 +13,54 @@ class DatabaseService {
     return _instance;
   }
 
-  final courseCollection = FirebaseFirestore.instance.collection('courses');
-  final userData = FirebaseFirestore.instance.collection('user_data');
+  final coursesRef =
+      FirebaseFirestore.instance.collection('courses').withConverter<Course>(
+            fromFirestore: (snapshot, _) => Course.fromJson(snapshot.data()!),
+            toFirestore: (course, _) => course.toJson(),
+          );
 
-  List<Course> _coursesFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map(_courseFromSnapshot).toList();
+  final userDataRef =
+      FirebaseFirestore.instance.collection('userData').withConverter<UserData>(
+            fromFirestore: (snapshot, _) => UserData.fromJson(snapshot.data()!),
+            toFirestore: (userData, _) => userData.toJson(),
+          );
+
+  final eventsRef =
+      FirebaseFirestore.instance.collection('events').withConverter<Event>(
+            fromFirestore: (snapshot, _) => Event.fromJson(snapshot.data()!),
+            toFirestore: (event, _) => event.toJson(),
+          );
+
+  Future<QuerySnapshot<Course>> get courses {
+    return coursesRef.orderBy('name').get();
   }
 
-  Course _courseFromSnapshot(QueryDocumentSnapshot snapshot) {
-    return Course(
-        uid: snapshot.id,
-        name: snapshot.get('name'),
-        shortName: snapshot.get('shortName'));
-  }
-
-  Future<List<Course>> get courses {
-    return courseCollection
-        .orderBy('name')
+  Future<List<String>> get userCourses {
+    return userDataRef
+        .doc(AuthService().user?.uid)
         .get()
-        .then((v) => v.docs.map(_courseFromSnapshot).toList());
+        .then((value) => value.data()!.courses);
   }
 
-  Future<Set<String>> get userCourses {
-    return userData.doc(AuthService().user?.uid).get().then((value) =>
-        (value.get('courses') as List).map((e) => e as String).toSet());
-  }
-
-  Stream<List<Course>> get coursesStream {
-    return courseCollection
-        .orderBy('name')
-        .snapshots()
-        .map(_coursesFromSnapshot);
+  Future<List<QueryDocumentSnapshot<Course>>> get userCoursesM async {
+    return coursesRef
+        .where(FieldPath.documentId, whereIn: (await userCourses).toList())
+        .get()
+        .then((value) => value.docs);
   }
 
   void saveUserCourses(Set<String> courses) {
-    userData.doc(AuthService().user?.uid).set({
-      'courses': courses.toList(),
-    });
+    userDataRef.doc(AuthService().user?.uid).set(
+          UserData(courses: courses.toList()),
+          SetOptions(mergeFields: ['courses']),
+        );
   }
 
   Future<List<QueryDocumentSnapshot<Event>>> get userEvents async {
-    var courses = (await userCourses).toList();
-    print(courses);
-    return await FirebaseFirestore.instance
-        .collection('events')
-        .withConverter<Event>(
-          fromFirestore: (snapshot, _) => Event.fromJson(snapshot.data()!),
-          toFirestore: (event, _) => event.toJson(),
-        )
-        .get().then((snapshot) => snapshot.docs);
+    return await eventsRef
+        .where('courseId', whereIn: (await userCourses).toList())
+        .orderBy('deadline')
+        .get()
+        .then((snapshot) => snapshot.docs);
   }
-
-// final List<Event> events = [
-//   Event(
-//     name: 'Invited talk by Prof. Pimenta Monteiro',
-//     deadline: DateTime.now().add(const Duration(minutes: 22)),
-//     courseId: 'ESOF',
-//     duration: const Duration(hours: 2).inMicroseconds,
-//     teacher: 'Ademar Aguiar',
-//   ),
-//   Event(
-//     name: 'Teste 1',
-//     courseId: 'LCOM',
-//     duration: const Duration(hours: 2),
-//     deadline: DateTime.now().add(const Duration(days: 1)),
-//   ),
-// ];
 }
