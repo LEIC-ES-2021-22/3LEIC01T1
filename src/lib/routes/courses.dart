@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,15 +14,15 @@ class CoursesScreen extends StatefulWidget {
 }
 
 class _CoursesScreenState extends State<CoursesScreen> {
-  List<Course> _courses = [];
+  List<QueryDocumentSnapshot<Course>> _courses = [];
   Set<String> _selected = {};
-  Set<String> _remote = {};
+  List<String> _remote = [];
 
   bool _loading = true;
 
   void getData() async {
     await Future.wait<void>([
-      DatabaseService().courses.then((val) => _courses = val),
+      DatabaseService().courses.then((val) => _courses = val.docs),
       DatabaseService().userCourses.then((val) => _remote = val),
     ]);
 
@@ -40,16 +41,17 @@ class _CoursesScreenState extends State<CoursesScreen> {
   void updateCourses() async {
     DatabaseService().saveUserCourses(_selected);
 
-    var newSet = await DatabaseService().userCourses;
-
+    final res = await DatabaseService().userCourses;
     setState(() {
-      _remote = newSet;
-      _selected = Set.from(newSet);
+      _remote = res;
+      _selected = Set.from(res);
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-          content: Text("Courses updated"), duration: Duration(seconds: 1)),
+        content: Text("Courses updated"),
+        duration: Duration(seconds: 2),
+      ),
     );
   }
 
@@ -62,7 +64,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
     }
 
     return DefaultScaffold(
-      floatingActionButton: _loading || setEquals(_remote, _selected)
+      floatingActionButton: _loading || setEquals(_remote.toSet(), _selected)
           ? null
           : FloatingActionButton(
               onPressed: updateCourses,
@@ -96,12 +98,12 @@ class _CoursesScreenState extends State<CoursesScreen> {
                   itemBuilder: (context, index) {
                     final course = _courses[index];
                     return CheckboxListTile(
-                      title: Text(course.name),
-                      subtitle: Text(course.shortName),
-                      value: _selected.contains(course.uid),
+                      title: Text(course.data().name),
+                      subtitle: Text(course.data().shortName),
+                      value: _selected.contains(course.id),
                       onChanged: (bool? value) => setState(() => value == true
-                          ? _selected.add(course.uid)
-                          : _selected.remove(course.uid)),
+                          ? _selected.add(course.id)
+                          : _selected.remove(course.id)),
                     );
                   },
                   primary: false,

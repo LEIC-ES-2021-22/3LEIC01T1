@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/routes/event_description.dart';
 import 'package:remind_me_up/util.dart';
 
@@ -7,8 +8,10 @@ import 'package:remind_me_up/models/event.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
+  final Course course;
 
-  const EventCard({Key? key, required this.event}) : super(key: key);
+  const EventCard({Key? key, required this.event, required this.course})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +46,11 @@ class EventCard extends StatelessWidget {
                       spacing: 15,
                       runSpacing: 5,
                       children: [
-                        IconWithText(icon: Icons.school, text: event.courseId),
-                        IconWithText(
-                          icon: Icons.person,
-                          text: event.teacherId,
-                        ),
+                        IconWithText(icon: Icons.school, text: course.shortName),
+                        // IconWithText(
+                        //   icon: Icons.person,
+                        //   text: event.teacherId,
+                        // ),
                       ],
                     ),
                     const SizedBox(height: 5),
@@ -58,7 +61,7 @@ class EventCard extends StatelessWidget {
                         IconWithText(
                           icon: Icons.calendar_month,
                           text: DateFormat("HH:MM E, dd MMMM yyyy")
-                              .format(event.deadline.toDate()),
+                              .format(event.deadline),
                         ),
                         if (event.duration != null)
                           IconWithText(
@@ -72,7 +75,7 @@ class EventCard extends StatelessWidget {
                 ),
               ),
               FlooredDurationBox.fromDuration(
-                event.deadline.toDate().difference(DateTime.now()),
+                event.deadline.difference(DateTime.now()),
               )
             ],
           ),

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
   String name;
-  Timestamp deadline;
+  DateTime deadline;
   String courseId;
   String teacherId;
 
@@ -23,7 +23,7 @@ class Event {
   Event.fromJson(Map<String, Object?> json)
       : this(
           name: json['name']! as String,
-          deadline: json['deadline']! as Timestamp,
+          deadline: (json['deadline']! as Timestamp).toDate(),
           courseId: json['courseId']! as String,
           teacherId: json['teacherId']! as String,
           description: json['description'] as String?,
@@ -39,9 +39,9 @@ class Event {
       'deadline': deadline,
       'courseId': courseId,
       'teacherId': teacherId,
-      if (description != null) 'description': description,
-      if (duration != null) 'duration': duration!.inSeconds,
-      if (location != null) 'location': location,
+      'description': description,
+      'duration': duration?.inSeconds,
+      'location': location,
     };
   }
 }

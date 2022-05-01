@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:remind_me_up/event_card.dart';
+import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/models/event.dart';
 import 'package:remind_me_up/routes/auth_wrapper.dart';
 import 'package:remind_me_up/routes/create_event.dart';
@@ -9,7 +11,7 @@ import 'package:remind_me_up/services/auth.dart';
 import 'package:remind_me_up/services/database.dart';
 
 class Home extends StatelessWidget {
-  Home({Key? key}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,24 +35,49 @@ class Home extends StatelessWidget {
                 ),
               ],
             ),
-            FutureBuilder<List<QueryDocumentSnapshot<Event>>>(
-              future: DatabaseService().userEvents,
-              builder: (context, snapshot) {
+            FutureBuilder(
+              future: Future.wait([
+                DatabaseService().userEvents,
+                DatabaseService().userCoursesM
+              ]),
+              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text('Loading...');
+                  return const SpinKitRing(
+                    color: Colors.deepPurple,
+                    lineWidth: 5,
+                  );
                 }
 
-                print(snapshot.data);
+                // print(snapshot.data);
 
-                return Column(
-                  children: snapshot.data!
-                      .map((e) => EventCard(event: e.data()))
-                      .toList(),
+                final List<QueryDocumentSnapshot<Course>> courses =
+                    snapshot.data![1];
+                final List<QueryDocumentSnapshot<Event>> events =
+                    snapshot.data![0];
+
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  primary: false,
+                  shrinkWrap: true,
+                  itemCount: events.length,
+                  itemBuilder: (context, index) => EventCard(
+                    course: courses
+                        .firstWhere((element) =>
+                            element.id == events[index].data().courseId)
+                        .data(),
+                    event: events[index].data(),
+                  ),
                 );
+
+                // return Column(
+                //   children: snapshot.data!
+                //       .map((e) => EventCard(event: e.data()))
+                //       .toList(),
+                // );
               },
             )
           ],
@@ -119,7 +146,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Courses'),
-            onTap: () => Navigator.pushReplacement(
+            onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const CoursesScreen()),
             ),
