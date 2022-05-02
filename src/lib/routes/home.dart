@@ -72,12 +72,6 @@ class Home extends StatelessWidget {
                     event: events[index].data(),
                   ),
                 );
-
-                // return Column(
-                //   children: snapshot.data!
-                //       .map((e) => EventCard(event: e.data()))
-                //       .toList(),
-                // );
               },
             )
           ],
