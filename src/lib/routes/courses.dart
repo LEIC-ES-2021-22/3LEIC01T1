@@ -15,15 +15,17 @@ class CoursesScreen extends StatefulWidget {
 
 class _CoursesScreenState extends State<CoursesScreen> {
   List<QueryDocumentSnapshot<Course>> _courses = [];
-  Set<String> _selected = {};
   List<String> _remote = [];
+  Set<String> _selected = {};
 
   bool _loading = true;
 
   void getData() async {
     await Future.wait<void>([
       DatabaseService().courses.then((val) => _courses = val.docs),
-      DatabaseService().userCourses.then((val) => _remote = val),
+      DatabaseService()
+          .userCoursesM
+          .then((val) => _remote = val.map((e) => e.id).toList()),
     ]);
 
     setState(() {
@@ -41,7 +43,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
   void updateCourses() async {
     DatabaseService().saveUserCourses(_selected);
 
-    final res = await DatabaseService().userCourses;
+    final res =
+        (await DatabaseService().userCoursesM).map((c) => c.id).toList();
     setState(() {
       _remote = res;
       _selected = Set.from(res);
@@ -97,7 +100,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                   itemCount: _courses.length,
                   itemBuilder: (context, index) {
                     final course = _courses[index];
-                    return CheckboxListTile(
+                    return SwitchListTile(
                       title: Text(course.data().name),
                       subtitle: Text(course.data().shortName),
                       value: _selected.contains(course.id),

@@ -35,16 +35,17 @@ class DatabaseService {
     return coursesRef.orderBy('name').get();
   }
 
-  Future<List<String>> get userCourses {
+  Future<UserData?> get userData {
     return userDataRef
         .doc(AuthService().user?.uid)
         .get()
-        .then((value) => value.data()!.courses);
+        .then((value) => value.data()!);
   }
 
   Future<List<QueryDocumentSnapshot<Course>>> get userCoursesM async {
     return coursesRef
-        .where(FieldPath.documentId, whereIn: (await userCourses).toList())
+        .where(FieldPath.documentId,
+            whereIn: (await userData)?.courses.toList())
         .get()
         .then((value) => value.docs);
   }
@@ -58,7 +59,8 @@ class DatabaseService {
 
   Future<List<QueryDocumentSnapshot<Event>>> get userEvents async {
     return await eventsRef
-        .where('courseId', whereIn: (await userCourses).toList())
+        .where('courseId',
+            whereIn: (await userCoursesM).map((c) => c.id).toList())
         .orderBy('deadline')
         .get()
         .then((snapshot) => snapshot.docs);
