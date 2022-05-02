@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:remind_me_up/event_card.dart';
 import 'package:remind_me_up/models/event.dart';
+import 'package:remind_me_up/routes/create_event.dart';
 import 'package:remind_me_up/services/auth.dart';
 
 class Home extends StatelessWidget {
@@ -47,7 +48,28 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children:[
+            DrawerHeader(
+              child: Text('RemindMeUP')
+              ),
+            ListTile(
+              leading: const Icon(Icons.add_circle),
+              title: const Text("Create Event"),
+              onTap: (){
+                print("clicked on create event");
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context)=> CreateEvent())
+                );
+
+              },
+            )
+          ]
+        ),
+        
+      ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
