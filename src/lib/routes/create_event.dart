@@ -1,24 +1,22 @@
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../services/auth.dart';
+import 'package:remind_me_up/routes/home.dart';
 
 class CreateEvent extends StatefulWidget {
-  CreateEvent({Key? key}) : super(key: key);
+  const CreateEvent({Key? key}) : super(key: key);
 
   @override
   State<CreateEvent> createState() => _CreateEventState();
 }
 
 class _CreateEventState extends State<CreateEvent> {
-  final AuthService _auth = AuthService();
-  final coursesList = ['AEDA', 'ES', 'LTW'];
+  final coursesList = ['AEDA', 'ES', 'LTW']; // TODO database
 
   String? selectedCourse;
   DateTime _selectedDeadline = DateTime.now();
+
   // TimeOfDay _duration = TimeOfDay(hour: 0, minute: 0);
   Duration _duration = Duration.zero;
   TextEditingController dateinput = TextEditingController();
@@ -38,44 +36,7 @@ class _CreateEventState extends State<CreateEvent> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            floating: true,
-            actions: [
-              ElevatedButton(
-                onPressed: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SimpleDialog(
-                        titleTextStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        title: Text(_auth.user?.displayName ??
-                            _auth.user?.email ??
-                            'User'),
-                        children: <Widget>[
-                          SimpleDialogOption(
-                            onPressed: () {
-                              _auth.logout();
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Sign Out'),
-                          ),
-                        ],
-                      );
-                    }),
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                  minimumSize: Size.zero,
-                  padding: const EdgeInsets.all(2),
-                ),
-                child: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/okayeg.png'),
-                ),
-              ),
-              const SizedBox(width: 15)
-            ],
-          ),
+          DefaultAppBar(),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
@@ -110,7 +71,7 @@ class _CreateEventState extends State<CreateEvent> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     width: 400,
                     child: DropdownButtonFormField<String>(
                       decoration: const InputDecoration(
@@ -131,7 +92,7 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  Container(
+                  SizedBox(
                     width: 400,
                     child: TextFormField(
                       decoration: const InputDecoration(
@@ -144,15 +105,15 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  Container(
+                  SizedBox(
                       width: 400,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
                             child: TextField(
-                              controller:
-                                  dateinput, //editing controller of this TextField
+                              controller: dateinput,
+                              //editing controller of this TextField
                               decoration: const InputDecoration(
                                 icon: Icon(
                                     Icons.calendar_today), //icon of text field
@@ -160,15 +121,15 @@ class _CreateEventState extends State<CreateEvent> {
                                 // contentPadding: EdgeInsets.zero,
                                 // alignLabelWithHint: true,
                               ),
-                              readOnly:
-                                  true, //set it true, so that user will not able to edit text
+                              readOnly: true,
+                              //set it true, so that user will not able to edit text
                               onTap: () async {
                                 DateTime? pickedDate = await showDatePicker(
                                     context: context,
                                     initialDatePickerMode: DatePickerMode.day,
                                     initialDate: _selectedDeadline,
-                                    firstDate: DateTime(
-                                        2000), //DateTime.now() - not to allow to choose before today.
+                                    firstDate: DateTime(2000),
+                                    //DateTime.now() - not to allow to choose before today.
                                     lastDate: DateTime(2101));
                                 if (pickedDate != null) {
                                   String formattedDate =
@@ -186,7 +147,9 @@ class _CreateEventState extends State<CreateEvent> {
                                         formattedDate; //set output date to TextField value.
                                   });
                                 } else {
-                                  print("Date is not selected");
+                                  if (kDebugMode) {
+                                    print("Date is not selected");
+                                  }
                                   return;
                                 }
                               },
@@ -195,15 +158,15 @@ class _CreateEventState extends State<CreateEvent> {
                           const SizedBox(width: 12),
                           Expanded(
                             child: TextField(
-                              controller:
-                                  timeinput, //editing controller of this TextField
+                              controller: timeinput,
+                              //editing controller of this TextField
                               decoration: const InputDecoration(
                                   icon: Icon(Icons
                                       .access_time_filled), //icon of text field
                                   labelText: "Time" //label text of field
                                   ),
-                              readOnly:
-                                  true, //set it true, so that user will not able to edit text
+                              readOnly: true,
+                              //set it true, so that user will not able to edit text
                               onTap: () async {
                                 TimeOfDay? pickedTime = await showTimePicker(
                                     context: context,
@@ -211,7 +174,9 @@ class _CreateEventState extends State<CreateEvent> {
                                         hour: _selectedDeadline.hour,
                                         minute: _selectedDeadline.minute));
                                 if (pickedTime != null) {
-                                  print(pickedTime);
+                                  if (kDebugMode) {
+                                    print(pickedTime);
+                                  }
                                   String formattedTime =
                                       pickedTime.format(context);
                                   // print(formattedDate); //formatted date output using intl package =>  2021-03-16
@@ -228,7 +193,9 @@ class _CreateEventState extends State<CreateEvent> {
                                         formattedTime; //set output date to TextField value.
                                   });
                                 } else {
-                                  print("Time is not selected");
+                                  if (kDebugMode) {
+                                    print("Time is not selected");
+                                  }
                                 }
                               },
                             ),
@@ -240,7 +207,7 @@ class _CreateEventState extends State<CreateEvent> {
                   //   width: 400,
                   //   child:
                   // ),
-                  Container(
+                  SizedBox(
                     width: 400,
                     child: TextFormField(
                       decoration: const InputDecoration(
@@ -253,18 +220,18 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  Container(
+                  SizedBox(
                     width: 400,
                     child: TextField(
-                      controller:
-                          durationinput, //editing controller of this TextField
+                      controller: durationinput,
+                      //editing controller of this TextField
                       decoration: const InputDecoration(
                         icon:
                             Icon(Icons.access_time_filled), //icon of text field
                         labelText: "Duration", //label text of field
                       ),
-                      readOnly:
-                          true, //set it true, so that user will not able to edit text
+                      readOnly: true,
+                      //set it true, so that user will not able to edit text
                       onTap: () async {
                         showCupertinoModalPopup(
                             context: context,
@@ -321,9 +288,9 @@ class _CreateEventState extends State<CreateEvent> {
                       },
                     ),
                   ),
- 
+
                   const SizedBox(height: 36),
-                  Container(
+                  SizedBox(
                     width: 400,
                     child: TextFormField(
                         minLines: 12,
