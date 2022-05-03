@@ -1,4 +1,5 @@
 import 'package:duration/duration.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class FlooredDuration {
@@ -20,13 +21,14 @@ class FlooredDuration {
   }
 
 
-
   String pluralizedTersity() {
     return Intl.plural(amount, one: tersity.name, other: tersity.name + 's');
   }
 
   String formatted() {
-    return '$amount ${tersity.name[0].toUpperCase()}${pluralizedTersity().substring(1).toLowerCase()}';
+    return '$amount ${tersity.name[0].toUpperCase()}${pluralizedTersity()
+        .substring(1)
+        .toLowerCase()}';
   }
 
   @override
@@ -34,3 +36,8 @@ class FlooredDuration {
     return formatted();
   }
 }
+
+const fixedInputDecoration = InputDecoration(
+  alignLabelWithHint: true,
+  contentPadding: EdgeInsets.zero,
+);
