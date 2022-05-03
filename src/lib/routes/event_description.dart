@@ -1,14 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../event_card.dart';
+import 'package:remind_me_up/event_card.dart';
 import 'package:remind_me_up/models/event.dart';
-
-import '../util.dart';
-
-
+import 'package:remind_me_up/util.dart';
 
 class EventDescription extends StatelessWidget {
   final Event event;
@@ -18,7 +12,7 @@ class EventDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:CustomScrollView(
+      body: CustomScrollView(
         slivers: [
           SliverAppBar(
             /*
@@ -36,7 +30,6 @@ class EventDescription extends StatelessWidget {
                 ),
                 child: const CircleAvatar(
                   backgroundImage: AssetImage('assets/okayeg.png'),
-
                 ),
               ),
               const SizedBox(width: 15)
@@ -44,7 +37,8 @@ class EventDescription extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 18),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -64,12 +58,8 @@ class EventDescription extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                      event.course +
-                          (event.teacher != null ? " • " + event.teacher! : ''),
-                      style:const TextStyle(
-                          color: Color(0xAAFFFFFF)
-                      )
-                  ),
+                      event.courseId + " • " + event.teacherId,
+                      style: const TextStyle(color: Color(0xAAFFFFFF))),
                   const SizedBox(height: 5),
                   Wrap(
                     spacing: 15,
@@ -95,13 +85,8 @@ class EventDescription extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                      event.description ?? "no  description",
-                      style: const TextStyle(
-                          fontSize: 20,
-                          height: 1.8
-                      )
-                  )
+                  Text(event.description ?? "no  description",
+                      style: const TextStyle(fontSize: 20, height: 1.8))
                 ],
               ),
             ),
@@ -111,11 +96,3 @@ class EventDescription extends StatelessWidget {
     );
   }
 }
-
-/*
-ElevatedButton(
-onPressed: () {
-Navigator.pop(context);
-},
-child: const Text('Go back!'),
-*/

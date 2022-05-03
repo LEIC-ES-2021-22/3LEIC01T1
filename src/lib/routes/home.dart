@@ -148,13 +148,10 @@ class DefaultDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.add_circle),
             title: const Text("Create Event"),
-            onTap: (){
-              print("clicked on create event");
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context)=> CreateEvent())
-              );
-
-            },
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CreateEvent()),
+            ),
           )
         ],
       ),
