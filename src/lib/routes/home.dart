@@ -208,7 +208,7 @@ class DefaultAppBar extends StatelessWidget {
             backgroundImage: AssetImage('assets/okayeg.png'),
           ),
         ),
-        const SizedBox(width: 15)
+        const SizedBox(width: 16)
       ],
     );
   }
