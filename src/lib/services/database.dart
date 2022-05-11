@@ -37,9 +37,9 @@ class DatabaseService {
 
   Future<UserData?> get userData {
     return userDataRef
-            .doc(AuthService().user!.uid)
-            .get()
-            .then((value) => value.data());
+        .doc(AuthService().user!.uid)
+        .get()
+        .then((value) => value.data());
   }
 
   Future<List<QueryDocumentSnapshot<Course>>> get userCoursesM async {
@@ -50,8 +50,7 @@ class DatabaseService {
     }
 
     return coursesRef
-        .where(FieldPath.documentId,
-            whereIn: data.courses.toList())
+        .where(FieldPath.documentId, whereIn: data.courses.toList())
         .get()
         .then((value) => value.docs);
   }
@@ -71,8 +70,8 @@ class DatabaseService {
     }
 
     return await eventsRef
-        .where('courseId',
-            whereIn: courses.map((c) => c.id).toList())
+        .where('courseId', whereIn: courses.map((c) => c.id).toList())
+        .where('deadline', isGreaterThan: DateTime.now())
         .orderBy('deadline')
         .get()
         .then((snapshot) => snapshot.docs);
