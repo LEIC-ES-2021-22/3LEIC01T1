@@ -59,19 +59,31 @@ class Home extends StatelessWidget {
                 final List<QueryDocumentSnapshot<Event>> events =
                     snapshot.data![0];
 
-                return ListView.builder(
-                  padding: EdgeInsets.zero,
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: events.length,
-                  itemBuilder: (context, index) => EventCard(
-                    course: courses
-                        .firstWhere((element) =>
-                            element.id == events[index].data().courseId)
-                        .data(),
-                    event: events[index].data(),
-                  ),
-                );
+                return events.isNotEmpty
+                    ? ListView.builder(
+                        padding: EdgeInsets.zero,
+                        primary: false,
+                        shrinkWrap: true,
+                        itemCount: events.length,
+                        itemBuilder: (context, index) => EventCard(
+                          course: courses
+                              .firstWhere((element) =>
+                                  element.id == events[index].data().courseId)
+                              .data(),
+                          event: events[index].data(),
+                        ),
+                      )
+                    : Padding(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height / 3),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text("You don't have any events"),
+                            Text("Try adding courses in the Courses tab"),
+                          ],
+                        ),
+                      );
               },
             )
           ],
@@ -150,7 +162,7 @@ class DefaultDrawer extends StatelessWidget {
             title: const Text("Create Event"),
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CreateEvent()),
+              MaterialPageRoute(builder: (context) => const CreateEvent()),
             ),
           )
         ],
