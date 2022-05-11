@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/routes/event_description.dart';
 import 'package:remind_me_up/util.dart';
 
@@ -7,8 +8,9 @@ import 'package:remind_me_up/models/event.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
+  final Course course;
 
-  const EventCard({Key? key, required this.event}) : super(key: key);
+  const EventCard({Key? key, required this.event, required this.course}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +20,9 @@ class EventCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         onTap: () => //Navigator.pushNamed(context, '/event', arguments: event),
-              Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>  EventDescription(event: event)),
+            Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EventDescription(event: event)),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
@@ -43,12 +45,11 @@ class EventCard extends StatelessWidget {
                       spacing: 15,
                       runSpacing: 5,
                       children: [
-                        IconWithText(icon: Icons.school, text: event.course),
-                        if (event.teacher != null)
-                          IconWithText(
-                            icon: Icons.person,
-                            text: event.teacher!,
-                          ),
+                        IconWithText(icon: Icons.school, text: course.shortName),
+                        // IconWithText(
+                        //   icon: Icons.person,
+                        //   text: event.teacherId,
+                        // ),
                       ],
                     ),
                     const SizedBox(height: 5),
@@ -58,23 +59,19 @@ class EventCard extends StatelessWidget {
                       children: [
                         IconWithText(
                           icon: Icons.calendar_month,
-                          text: DateFormat("HH:MM E, dd MMMM yyyy")
-                              .format(event.deadline),
+                          text: DateFormat("HH:MM E, dd MMMM yyyy").format(event.deadline),
                         ),
                         if (event.duration != null)
                           IconWithText(
                             icon: Icons.timer_outlined,
-                            text: FlooredDuration.fromDuration(event.duration!)
-                                .formatted(),
+                            text: FlooredDuration.fromDuration(event.duration!).formatted(),
                           ),
                       ],
                     ),
                   ],
                 ),
               ),
-              FlooredDurationBox.fromDuration(
-                event.deadline.difference(DateTime.now()),
-              )
+              FlooredDurationBox.fromDeadline(event.deadline),
             ],
           ),
         ),
@@ -90,6 +87,10 @@ class FlooredDurationBox extends StatelessWidget {
     Key? key,
     required this.duration,
   }) : super(key: key);
+
+  static FlooredDurationBox fromDeadline(DateTime deadline) {
+    return FlooredDurationBox.fromDuration(deadline.difference(DateTime.now()));
+  }
 
   static FlooredDurationBox fromDuration(Duration duration) {
     return FlooredDurationBox(duration: FlooredDuration.fromDuration(duration));

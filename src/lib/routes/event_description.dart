@@ -1,14 +1,13 @@
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
-
-import '../event_card.dart';
+import 'package:remind_me_up/event_card.dart';
+import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/models/event.dart';
-
-import '../util.dart';
-
-
+import 'package:remind_me_up/routes/home.dart';
+import 'package:remind_me_up/services/database.dart';
+import 'package:remind_me_up/util.dart';
 
 class EventDescription extends StatelessWidget {
   final Event event;
@@ -18,67 +17,64 @@ class EventDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:CustomScrollView(
+      body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            /*
-        centerTitle: true,
-        title: Text("Description"),
-        */
-            floating: true,
-            actions: [
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                  minimumSize: Size.zero,
-                  padding: EdgeInsets.zero,
-                ),
-                child: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/okayeg.png'),
-
-                ),
-              ),
-              const SizedBox(width: 15)
-            ],
-          ),
+          DefaultAppBar(),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 18),
+              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 5),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(height: 5),
                       Flexible(
-                        child: Text(event.name,
-                            style: const TextStyle(
-                              fontSize: 20,
-                            )),
+                        child: Text(
+                          event.name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
                       ),
-                      FlooredDurationBox.fromDuration(
-                        event.deadline.difference(DateTime.now()),
-                      ),
+                      FlooredDurationBox.fromDeadline(event.deadline),
                     ],
                   ),
-                  const SizedBox(height: 5),
-                  Text(
-                      event.course +
-                          (event.teacher != null ? " • " + event.teacher! : ''),
-                      style:const TextStyle(
-                          color: Color(0xAAFFFFFF)
-                      )
+                  const SizedBox(height: 10),
+                  FutureBuilder<DocumentSnapshot<Course>>(
+                    future: DatabaseService().coursesRef.doc(event.courseId).get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Row(
+                          children: const [
+                            SpinKitRing(
+                              color: Colors.grey,
+                              lineWidth: 2,
+                              size: 15,
+                            ),
+                          ],
+                        );
+                      }
+
+                      if (snapshot.hasData && snapshot.data!.data() != null) {
+                        return Text(
+                          snapshot.data!.data()!.shortName,
+                          style: const TextStyle(color: Colors.grey),
+                        );
+                      }
+
+                      return const SizedBox();
+                    },
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
                   Wrap(
                     spacing: 15,
                     runSpacing: 5,
                     children: [
                       IconWithText(
                         icon: Icons.calendar_month,
-                        text: DateFormat("HH:MM E, dd MMMM yyyy")
-                            .format(event.deadline),
+                        text: DateFormat("HH:MM E, dd MMMM yyyy").format(event.deadline),
                       ),
                     ],
                   ),
@@ -89,19 +85,13 @@ class EventDescription extends StatelessWidget {
                     children: [
                       IconWithText(
                         icon: Icons.timer_outlined,
-                        text: FlooredDuration.fromDuration(event.duration!)
-                            .formatted(),
+                        text: FlooredDuration.fromDuration(event.duration!).formatted(),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                      event.description ?? "no  description",
-                      style: const TextStyle(
-                          fontSize: 20,
-                          height: 1.8
-                      )
-                  )
+                  const SizedBox(height: 20),
+                  Text(event.description ?? "no  description",
+                      style: const TextStyle(fontSize: 20, height: 1.8))
                 ],
               ),
             ),
@@ -111,11 +101,3 @@ class EventDescription extends StatelessWidget {
     );
   }
 }
-
-/*
-ElevatedButton(
-onPressed: () {
-Navigator.pop(context);
-},
-child: const Text('Go back!'),
-*/
