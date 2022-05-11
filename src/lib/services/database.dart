@@ -59,6 +59,10 @@ class DatabaseService {
         );
   }
 
+  void createEvent(Event event){
+    eventsRef.add(event);
+  }
+
   Future<List<QueryDocumentSnapshot<Event>>> get userEvents async {
     return await eventsRef
         .where('courseId',

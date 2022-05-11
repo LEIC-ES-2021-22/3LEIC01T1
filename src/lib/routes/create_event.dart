@@ -7,6 +7,10 @@ import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/routes/home.dart';
 import 'package:remind_me_up/services/database.dart';
 import 'package:remind_me_up/util.dart';
+import 'package:remind_me_up/models/event.dart';
+import 'package:remind_me_up/services/auth.dart';
+
+
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({Key? key}) : super(key: key);
@@ -18,14 +22,20 @@ class CreateEvent extends StatefulWidget {
 class _CreateEventState extends State<CreateEvent> {
   bool _loading = true;
 
+
   List<Course> _coursesList = [];
   Course? _selectedCourse;
 
+  final AuthService _auth = AuthService();
   DateTime _selectedDeadline = DateTime.now();
   Duration _duration = Duration.zero;
   TextEditingController dateinput = TextEditingController();
   TextEditingController timeinput = TextEditingController();
   TextEditingController durationinput = TextEditingController();
+  TextEditingController nameinput = TextEditingController();
+  TextEditingController locationinput = TextEditingController();
+  TextEditingController descriptioninput = TextEditingController();
+
 
   void getAsyncData() async {
     final courses =
@@ -101,6 +111,7 @@ class _CreateEventState extends State<CreateEvent> {
                                 ),
                                 const SizedBox(height: 12),
                                 TextFormField(
+                                  controller: nameinput,
                                   decoration: fixedInputDecoration.copyWith(
                                     labelText: 'Name',
                                   ),
@@ -197,6 +208,7 @@ class _CreateEventState extends State<CreateEvent> {
                                 ),
                                 const SizedBox(height: 12),
                                 TextFormField(
+                                  controller: locationinput,
                                   decoration: fixedInputDecoration.copyWith(
                                     prefixIcon: const Icon(Icons.location_on),
                                     labelText: 'Location',
@@ -250,6 +262,7 @@ class _CreateEventState extends State<CreateEvent> {
                                   minLines: 12,
                                   maxLines: 12,
                                   keyboardType: TextInputType.multiline,
+                                  controller: descriptioninput,
                                   decoration: const InputDecoration(
                                     labelText: 'Description',
                                     hintText: 'Write a description about the event',
@@ -260,7 +273,19 @@ class _CreateEventState extends State<CreateEvent> {
                                 const SizedBox(height: 12),
                                 ElevatedButton(
                                   child: const Text('Create'),
-                                  onPressed: () {}, // TODO
+                                  onPressed: () {
+                                    print(nameinput.text);
+
+                                    // Event newEvent = Event(
+                                    //   name: nameinput.text, 
+                                    //   deadline: _selectedDeadline, 
+                                    //   duration: _duration, 
+                                    //   location: locationinput.text, 
+                                    //   courseId: _selectedCourse.id,
+                                    //   description: descriptioninput.text,
+                                    //   teacherId:_auth.user!.uid,
+                                    // );
+                                  }, // TODO
                                 ),
                               ],
                             ),
