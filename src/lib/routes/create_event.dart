@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,8 @@ class CreateEvent extends StatefulWidget {
 class _CreateEventState extends State<CreateEvent> {
   bool _loading = true;
 
-  List<Course> _coursesList = [];
-  Course? _selectedCourse;
+  List<QueryDocumentSnapshot<Course>> _coursesList = [];
+  QueryDocumentSnapshot<Course>? _selectedCourse;
 
   DateTime _selectedDeadline = DateTime.now();
   Duration _duration = Duration.zero;
@@ -29,7 +30,7 @@ class _CreateEventState extends State<CreateEvent> {
 
   void getAsyncData() async {
     final courses =
-        await DatabaseService().courses.then((value) => value.docs.map((e) => e.data()).toList());
+        await DatabaseService().courses.then((value) => value.docs.toList());
 
     setState(() {
       _coursesList = courses;
@@ -44,13 +45,13 @@ class _CreateEventState extends State<CreateEvent> {
     getAsyncData();
   }
 
-  DropdownMenuItem<Course> buildMenuItem(Course course) => DropdownMenuItem(
+  DropdownMenuItem<QueryDocumentSnapshot<Course>> buildMenuItem(QueryDocumentSnapshot<Course> course) => DropdownMenuItem(
         value: course,
         child: RichText(
           text: TextSpan(
-            text: course.name + ' ',
+            text: course.data().name + ' ',
             children: [
-              TextSpan(text: course.shortName, style: const TextStyle(color: Colors.grey)),
+              TextSpan(text: course.data().shortName, style: const TextStyle(color: Colors.grey)),
             ],
           ),
         ),
@@ -90,7 +91,7 @@ class _CreateEventState extends State<CreateEvent> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                DropdownButtonFormField<Course>(
+                                DropdownButtonFormField<QueryDocumentSnapshot<Course>>(
                                   decoration: fixedInputDecoration.copyWith(
                                     labelText: 'Course',
                                   ),
