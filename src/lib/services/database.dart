@@ -36,10 +36,12 @@ class DatabaseService {
   }
 
   Future<UserData?> get userData {
-    return userDataRef
-        .doc(AuthService().user?.uid)
-        .get()
-        .then((value) => value.data()!);
+    return AuthService().user != null
+        ? userDataRef
+            .doc(AuthService().user!.uid)
+            .get()
+            .then((value) => value.data()!)
+        : Future(() => null);
   }
 
   Future<List<QueryDocumentSnapshot<Course>>> get userCoursesM async {
