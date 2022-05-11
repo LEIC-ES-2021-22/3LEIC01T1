@@ -1,14 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:remind_me_up/models/course.dart';
+import 'package:remind_me_up/routes/auth_wrapper.dart';
 import 'package:remind_me_up/routes/home.dart';
 import 'package:remind_me_up/services/database.dart';
 import 'package:remind_me_up/util.dart';
 import 'package:remind_me_up/models/event.dart';
 import 'package:remind_me_up/services/auth.dart';
+
 
 
 
@@ -22,9 +25,8 @@ class CreateEvent extends StatefulWidget {
 class _CreateEventState extends State<CreateEvent> {
   bool _loading = true;
 
-
-  List<Course> _coursesList = [];
-  Course? _selectedCourse;
+  List<QueryDocumentSnapshot<Course>> _coursesList = [];
+  QueryDocumentSnapshot<Course>? _selectedCourse;
 
   final AuthService _auth = AuthService();
   DateTime _selectedDeadline = DateTime.now();
@@ -39,7 +41,7 @@ class _CreateEventState extends State<CreateEvent> {
 
   void getAsyncData() async {
     final courses =
-        await DatabaseService().courses.then((value) => value.docs.map((e) => e.data()).toList());
+        await DatabaseService().courses.then((value) => value.docs.toList());
 
     setState(() {
       _coursesList = courses;
@@ -54,13 +56,13 @@ class _CreateEventState extends State<CreateEvent> {
     getAsyncData();
   }
 
-  DropdownMenuItem<Course> buildMenuItem(Course course) => DropdownMenuItem(
+  DropdownMenuItem<QueryDocumentSnapshot<Course>> buildMenuItem(QueryDocumentSnapshot<Course> course) => DropdownMenuItem(
         value: course,
         child: RichText(
           text: TextSpan(
-            text: course.name + ' ',
+            text: course.data().name + ' ',
             children: [
-              TextSpan(text: course.shortName, style: const TextStyle(color: Colors.grey)),
+              TextSpan(text: course.data().shortName, style: const TextStyle(color: Colors.grey)),
             ],
           ),
         ),
@@ -100,7 +102,7 @@ class _CreateEventState extends State<CreateEvent> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                DropdownButtonFormField<Course>(
+                                DropdownButtonFormField<QueryDocumentSnapshot<Course>>(
                                   decoration: fixedInputDecoration.copyWith(
                                     labelText: 'Course',
                                   ),
@@ -274,18 +276,19 @@ class _CreateEventState extends State<CreateEvent> {
                                 ElevatedButton(
                                   child: const Text('Create'),
                                   onPressed: () {
-                                    print(nameinput.text);
-
-                                    // Event newEvent = Event(
-                                    //   name: nameinput.text, 
-                                    //   deadline: _selectedDeadline, 
-                                    //   duration: _duration, 
-                                    //   location: locationinput.text, 
-                                    //   courseId: _selectedCourse.id,
-                                    //   description: descriptioninput.text,
-                                    //   teacherId:_auth.user!.uid,
-                                    // );
-                                  }, // TODO
+                                    //TODO: Missing validator and redirect to home page
+                                    Event newEvent = Event(
+                                      name: nameinput.text, 
+                                      deadline: _selectedDeadline, 
+                                      duration: _duration, 
+                                      location: locationinput.text, 
+                                      courseId: _selectedCourse!.id,
+                                      description: descriptioninput.text,
+                                      teacherId:_auth.user!.uid,
+                                    );
+                                    DatabaseService().createEvent(newEvent);
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const AuthWrapper()));
+                                  },
                                 ),
                               ],
                             ),

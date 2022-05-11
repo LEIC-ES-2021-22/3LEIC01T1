@@ -36,18 +36,22 @@ class DatabaseService {
   }
 
   Future<UserData?> get userData {
-    return AuthService().user != null
-        ? userDataRef
+    return userDataRef
             .doc(AuthService().user!.uid)
             .get()
-            .then((value) => value.data()!)
-        : Future(() => null);
+            .then((value) => value.data());
   }
 
   Future<List<QueryDocumentSnapshot<Course>>> get userCoursesM async {
+    final data = await userData;
+
+    if (data == null || data.courses.isEmpty) {
+      return [];
+    }
+
     return coursesRef
         .where(FieldPath.documentId,
-            whereIn: (await userData)?.courses.toList())
+            whereIn: data.courses.toList())
         .get()
         .then((value) => value.docs);
   }
@@ -60,13 +64,20 @@ class DatabaseService {
   }
 
   void createEvent(Event event){
+    // print(event);
     eventsRef.add(event);
   }
 
   Future<List<QueryDocumentSnapshot<Event>>> get userEvents async {
+    final courses = await userCoursesM;
+
+    if (courses.isEmpty) {
+      return [];
+    }
+
     return await eventsRef
         .where('courseId',
-            whereIn: (await userCoursesM).map((c) => c.id).toList())
+            whereIn: courses.map((c) => c.id).toList())
         .orderBy('deadline')
         .get()
         .then((snapshot) => snapshot.docs);
