@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:remind_me_up/models/course.dart';
+import 'package:remind_me_up/routes/auth_wrapper.dart';
 import 'package:remind_me_up/routes/home.dart';
 import 'package:remind_me_up/services/database.dart';
 import 'package:remind_me_up/util.dart';
+import 'package:remind_me_up/models/event.dart';
+import 'package:remind_me_up/services/auth.dart';
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({Key? key}) : super(key: key);
@@ -17,16 +20,22 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEvent> {
+  final _formKey = GlobalKey<FormState>();
   bool _loading = true;
+
 
   List<QueryDocumentSnapshot<Course>> _coursesList = [];
   QueryDocumentSnapshot<Course>? _selectedCourse;
 
+  final AuthService _auth = AuthService();
   DateTime _selectedDeadline = DateTime.now();
   Duration _duration = Duration.zero;
   TextEditingController dateinput = TextEditingController();
   TextEditingController timeinput = TextEditingController();
   TextEditingController durationinput = TextEditingController();
+  TextEditingController nameinput = TextEditingController();
+  TextEditingController locationinput = TextEditingController();
+  TextEditingController descriptioninput = TextEditingController();
 
   void getAsyncData() async {
     final courses =
@@ -45,13 +54,17 @@ class _CreateEventState extends State<CreateEvent> {
     getAsyncData();
   }
 
-  DropdownMenuItem<QueryDocumentSnapshot<Course>> buildMenuItem(QueryDocumentSnapshot<Course> course) => DropdownMenuItem(
+  DropdownMenuItem<QueryDocumentSnapshot<Course>> buildMenuItem(
+          QueryDocumentSnapshot<Course> course) =>
+      DropdownMenuItem(
         value: course,
         child: RichText(
           text: TextSpan(
             text: course.data().name + ' ',
             children: [
-              TextSpan(text: course.data().shortName, style: const TextStyle(color: Colors.grey)),
+              TextSpan(
+                  text: course.data().shortName,
+                  style: const TextStyle(color: Colors.grey)),
             ],
           ),
         ),
@@ -70,7 +83,8 @@ class _CreateEventState extends State<CreateEvent> {
                     lineWidth: 5,
                   )
                 : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                     child: SizedBox(
                       width: 400,
                       child: Column(
@@ -85,52 +99,80 @@ class _CreateEventState extends State<CreateEvent> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          // TODO hook this to firestore
                           Form(
+                            key: _formKey,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                DropdownButtonFormField<QueryDocumentSnapshot<Course>>(
+                                DropdownButtonFormField<
+                                    QueryDocumentSnapshot<Course>>(
                                   decoration: fixedInputDecoration.copyWith(
-                                    labelText: 'Course',
+                                    labelText: 'Course*',
                                   ),
                                   value: _selectedCourse,
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'This field is required';
+                                    }
+                                    return null;
+                                  },
                                   isExpanded: true,
-                                  items: _coursesList.map(buildMenuItem).toList(),
-                                  onChanged: (value) => setState(() => _selectedCourse = value),
+                                  items:
+                                      _coursesList.map(buildMenuItem).toList(),
+                                  onChanged: (value) =>
+                                      setState(() => _selectedCourse = value),
                                 ),
                                 const SizedBox(height: 12),
                                 TextFormField(
+                                  controller: nameinput,
                                   decoration: fixedInputDecoration.copyWith(
-                                    labelText: 'Name',
+                                    labelText: 'Name*',
                                   ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'This field is required';
+                                    }
+                                    return null;
+                                  },
                                 ),
                                 const SizedBox(height: 12),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Expanded(
-                                      child: TextField(
+                                      child: TextFormField(
                                         controller: dateinput,
+
                                         //editing controller of this TextField
-                                        decoration: fixedInputDecoration.copyWith(
-                                          prefixIcon: const Icon(Icons.calendar_today),
-                                          labelText: 'Date',
+                                        decoration:
+                                            fixedInputDecoration.copyWith(
+                                          prefixIcon:
+                                              const Icon(Icons.calendar_today),
+                                          labelText: 'Date*',
                                         ),
                                         readOnly: true,
+                                        validator: (value) {
+                                          if (dateinput.text == '') {
+                                            return 'This field is required';
+                                          }
+                                          return null;
+                                        },
                                         //set it true, so that user will not able to edit text
                                         onTap: () async {
-                                          DateTime? pickedDate = await showDatePicker(
-                                              context: context,
-                                              initialDatePickerMode: DatePickerMode.day,
-                                              initialDate: _selectedDeadline,
-                                              firstDate: DateTime(2000),
-                                              //DateTime.now() - not to allow to choose before today.
-                                              lastDate: DateTime(2101));
+                                          DateTime? pickedDate =
+                                              await showDatePicker(
+                                                  context: context,
+                                                  initialDatePickerMode:
+                                                      DatePickerMode.day,
+                                                  initialDate: _selectedDeadline,
+                                                  firstDate: DateTime.now(),
+                                                  //DateTime.now() - not to allow to choose before today.
+                                                  lastDate: DateTime(2101));
                                           if (pickedDate != null) {
                                             String formattedDate =
-                                                DateFormat('yyyy-MM-dd').format(pickedDate);
+                                                DateFormat('yyyy-MM-dd')
+                                                    .format(pickedDate);
                                             setState(() {
                                               _selectedDeadline = DateTime(
                                                 pickedDate.year,
@@ -153,26 +195,54 @@ class _CreateEventState extends State<CreateEvent> {
                                     ),
                                     const SizedBox(width: 12),
                                     Expanded(
-                                      child: TextField(
+                                      child: TextFormField(
                                         controller: timeinput,
                                         //editing controller of this TextField
-                                        decoration: fixedInputDecoration.copyWith(
-                                          prefixIcon: const Icon(Icons.access_time_filled),
+                                        decoration:
+                                            fixedInputDecoration.copyWith(
+                                          prefixIcon: const Icon(
+                                              Icons.access_time_filled),
                                           labelText: 'Time',
                                         ),
                                         readOnly: true,
+                                        validator: (value) {
+                                          if(timeinput.text == ''){
+                                            return 'This field is required';
+                                          }
+                                          if (_selectedDeadline.year ==
+                                                  DateTime.now().year &&
+                                              _selectedDeadline.month ==
+                                                  DateTime.now().month &&
+                                              _selectedDeadline.day ==
+                                                  DateTime.now().day) {
+                                            if (_selectedDeadline.hour ==
+                                                DateTime.now().hour) {
+                                              if (_selectedDeadline.minute <
+                                                  DateTime.now().minute + 1) {
+                                                return 'Incorrect Time';
+                                              }
+                                            } else if (_selectedDeadline.hour <
+                                                DateTime.now().hour) {
+                                              return 'Incorrect Time';
+                                            }
+                                          }
+                                        },
                                         //set it true, so that user will not able to edit text
                                         onTap: () async {
-                                          TimeOfDay? pickedTime = await showTimePicker(
-                                              context: context,
-                                              initialTime: TimeOfDay(
-                                                  hour: _selectedDeadline.hour,
-                                                  minute: _selectedDeadline.minute));
+                                          TimeOfDay? pickedTime =
+                                              await showTimePicker(
+                                                  context: context,
+                                                  initialTime: TimeOfDay(
+                                                      hour: _selectedDeadline
+                                                          .hour,
+                                                      minute: _selectedDeadline
+                                                          .minute));
                                           if (pickedTime != null) {
                                             if (kDebugMode) {
                                               print(pickedTime);
                                             }
-                                            String formattedTime = pickedTime.format(context);
+                                            String formattedTime =
+                                                pickedTime.format(context);
                                             // print(formattedDate); //formatted date output using intl package =>  2021-03-16
                                             //you can implement different kind of Date Format here according to your requirement
                                             setState(() {
@@ -198,6 +268,7 @@ class _CreateEventState extends State<CreateEvent> {
                                 ),
                                 const SizedBox(height: 12),
                                 TextFormField(
+                                  controller: locationinput,
                                   decoration: fixedInputDecoration.copyWith(
                                     prefixIcon: const Icon(Icons.location_on),
                                     labelText: 'Location',
@@ -217,30 +288,38 @@ class _CreateEventState extends State<CreateEvent> {
                                   onTap: () async {
                                     showCupertinoModalPopup(
                                       context: context,
-                                      builder: (context) => CupertinoActionSheet(
+                                      builder: (context) =>
+                                          CupertinoActionSheet(
                                         actions: [
                                           SizedBox(
                                             height: 300,
                                             child: CupertinoTimerPicker(
                                               initialTimerDuration: _duration,
                                               mode: CupertinoTimerPickerMode.hm,
-                                              onTimerDurationChanged: (duration) => {
+                                              onTimerDurationChanged:
+                                                  (duration) => {
                                                 setState(
                                                   () {
                                                     _duration = duration;
                                                     List<String> tokens =
-                                                        _duration.toString().split(':');
+                                                        _duration
+                                                            .toString()
+                                                            .split(':');
                                                     durationinput.text =
-                                                        tokens[0] + ':' + tokens[1];
+                                                        tokens[0] +
+                                                            ':' +
+                                                            tokens[1];
                                                   },
                                                 )
                                               },
                                             ),
                                           ),
                                         ],
-                                        cancelButton: CupertinoActionSheetAction(
+                                        cancelButton:
+                                            CupertinoActionSheetAction(
                                           child: const Text('Cancel'),
-                                          onPressed: () => Navigator.pop(context),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
                                         ),
                                       ),
                                     );
@@ -251,17 +330,43 @@ class _CreateEventState extends State<CreateEvent> {
                                   minLines: 12,
                                   maxLines: 12,
                                   keyboardType: TextInputType.multiline,
+                                  controller: descriptioninput,
                                   decoration: const InputDecoration(
                                     labelText: 'Description',
-                                    hintText: 'Write a description about the event',
+                                    hintText:
+                                        'Write a description about the event',
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
                                   ),
                                 ),
                                 const SizedBox(height: 12),
                                 ElevatedButton(
                                   child: const Text('Create'),
-                                  onPressed: () {}, // TODO
+                                  onPressed: () {
+                                    if (!_formKey.currentState!.validate()) {
+                                      // ScaffoldMessenger.of(context).showSnackBar(
+                                      //   const SnackBar(content: Text('Processing Data'))
+                                      // );
+                                      return;
+                                    }
+
+                                    Event newEvent = Event(
+                                      name: nameinput.text,
+                                      deadline: _selectedDeadline,
+                                      duration: _duration,
+                                      location: locationinput.text,
+                                      courseId: _selectedCourse!.id,
+                                      description: descriptioninput.text,
+                                      teacherId: _auth.user!.uid,
+                                    );
+                                    DatabaseService().createEvent(newEvent);
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const AuthWrapper()));
+                                  },
                                 ),
                               ],
                             ),

@@ -62,6 +62,11 @@ class DatabaseService {
         );
   }
 
+  void createEvent(Event event){
+    // print(event);
+    eventsRef.add(event);
+  }
+
   Future<List<QueryDocumentSnapshot<Event>>> get userEvents async {
     final courses = await userCoursesM;
 
