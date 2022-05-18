@@ -90,14 +90,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
                                       setState(() => _loading = true);
-                                      await _auth.registerEmailPassword(
+                                      final res =
+                                          await _auth.registerEmailPassword(
                                         _email,
                                         _password,
                                       );
-                                    }
 
-                                    if (mounted) {
-                                      setState(() => _loading = false);
+                                      if (mounted) {
+                                        setState(() => _loading = false);
+                                        if (res != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(content: Text(res)),
+                                          );
+                                        }
+                                      }
                                     }
                                   },
                                   child: const Text(
