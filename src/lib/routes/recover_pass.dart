@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:remind_me_up/services/auth.dart';
 
 class RecoverPassScreen extends StatefulWidget {
   final Function toggleScreen;
