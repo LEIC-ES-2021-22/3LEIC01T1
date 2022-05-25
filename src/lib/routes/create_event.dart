@@ -8,6 +8,7 @@ import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/routes/auth_wrapper.dart';
 import 'package:remind_me_up/routes/home.dart';
 import 'package:remind_me_up/services/database.dart';
+import 'package:remind_me_up/services/pushNotification.dart';
 import 'package:remind_me_up/util.dart';
 import 'package:remind_me_up/models/event.dart';
 import 'package:remind_me_up/services/auth.dart';
@@ -50,7 +51,7 @@ class _CreateEventState extends State<CreateEvent> {
   @override
   void initState() {
     super.initState();
-
+    PushNotification().init();
     getAsyncData();
   }
 
@@ -361,11 +362,16 @@ class _CreateEventState extends State<CreateEvent> {
                                       teacherId: _auth.user!.uid,
                                     );
                                     DatabaseService().createEvent(newEvent);
+                                    
+                                    
+
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const AuthWrapper()));
+
+                                    DatabaseService().sendNotification(_selectedCourse!.id, nameinput.text, descriptioninput.text);
                                   },
                                 ),
                               ],
