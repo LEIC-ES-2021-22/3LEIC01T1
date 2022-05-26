@@ -351,15 +351,16 @@ class _CreateEventState extends State<CreateEvent> {
                                       // );
                                       return;
                                     }
-
+                                    
                                     Event newEvent = Event(
                                       name: nameinput.text,
                                       deadline: _selectedDeadline,
-                                      duration: _duration,
+                                      duration: _duration == Duration.zero? null : _duration,
                                       location: locationinput.text,
                                       courseId: _selectedCourse!.id,
                                       description: descriptioninput.text,
                                       teacherId: _auth.user!.uid,
+                                      teacherName: _auth.user!.email!,
                                     );
                                     DatabaseService().createEvent(newEvent);
                                     

@@ -79,6 +79,7 @@ class DatabaseService {
       }
     } );  
   }
+
   void createEvent(Event event){
     // print(event);
     eventsRef.add(event);
