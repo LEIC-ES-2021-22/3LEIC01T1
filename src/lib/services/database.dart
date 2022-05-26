@@ -72,7 +72,10 @@ class DatabaseService {
     final userDataRef = FirebaseFirestore.instance.collection("userData");
     userDataRef.where("courses", arrayContains: courseId).get().then((value){
       for (var val in value.docs) {
-        PushNotification().sendPushMessage(val.data()['notificationToken'], body, title);
+        var notificationToken = val.data()['notificationToken'];
+        if(notificationToken!=null){
+          PushNotification().sendPushMessage(notificationToken, body, title);
+        }
       }
     } );  
   }
