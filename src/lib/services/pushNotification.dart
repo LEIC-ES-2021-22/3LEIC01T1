@@ -88,9 +88,7 @@ class PushNotification{
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              // TODO add a proper drawable resource to android, for now using
-              //      one that already exists in example app.
-              icon: 'launch_background',
+              icon: '@drawable/ic_flutternotification',
             ),
           ),
         );
