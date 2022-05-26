@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:remind_me_up/firebase_options.dart';
 import 'package:remind_me_up/routes/auth_wrapper.dart';
 import 'package:remind_me_up/services/auth.dart';
+import 'package:remind_me_up/services/pushNotification.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -20,7 +21,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
+  PushNotification().init();
   runApp(const RemindMeUP());
 }
 

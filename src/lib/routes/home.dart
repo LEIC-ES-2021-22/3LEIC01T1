@@ -12,6 +12,8 @@ import 'package:remind_me_up/routes/create_event.dart';
 import 'package:remind_me_up/routes/courses.dart';
 import 'package:remind_me_up/services/auth.dart';
 import 'package:remind_me_up/services/database.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -122,6 +124,7 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
     loadFCM();
     listenFCM();
     getToken();
+    tz.initializeTimeZones();
   }
 
   void getToken() async{
