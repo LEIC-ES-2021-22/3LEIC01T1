@@ -16,10 +16,13 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+
+
+  Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return DefaultScaffold(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
@@ -76,6 +79,7 @@ class Home extends StatelessWidget {
                                   element.id == events[index].data().courseId)
                               .data(),
                           event: events[index].data(),
+                          eventid: events[index].id,
                         ),
                       )
                     : Padding(
@@ -239,6 +243,7 @@ class DefaultDrawer extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -270,7 +275,8 @@ class DefaultDrawer extends StatelessWidget {
             title: const Text('Courses'),
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const CoursesScreen()),
+              MaterialPageRoute(builder: (context) => const CoursesScreen(),
+              )
             ),
           ),
           ListTile(

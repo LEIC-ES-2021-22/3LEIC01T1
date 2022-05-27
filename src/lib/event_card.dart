@@ -3,15 +3,15 @@ import 'package:intl/intl.dart';
 import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/routes/event_description.dart';
 import 'package:remind_me_up/util.dart';
-
 import 'package:remind_me_up/models/event.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
   final Course course;
+  final String eventid;
 
-  const EventCard({Key? key, required this.event, required this.course}) : super(key: key);
 
+  const EventCard({Key? key, required this.event, required this.course, required this.eventid}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -22,7 +22,7 @@ class EventCard extends StatelessWidget {
         onTap: () => //Navigator.pushNamed(context, '/event', arguments: event),
             Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EventDescription(event: event)),
+          MaterialPageRoute(builder: (context) => EventDescription(eventid: eventid,event: event)),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
@@ -59,7 +59,7 @@ class EventCard extends StatelessWidget {
                       children: [
                         IconWithText(
                           icon: Icons.calendar_month,
-                          text: DateFormat("HH:MM E, dd MMMM yyyy").format(event.deadline),
+                          text: DateFormat("HH:mm E, dd MMMM yyyy").format(event.deadline),
                         ),
                         if (event.duration != null)
                           IconWithText(

@@ -12,6 +12,6 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
     PushNotification().init();
-    return user != null ? const Home() : const Authenticate();
+    return user != null ? Home() : const Authenticate();
   }
 }
