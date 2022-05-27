@@ -6,13 +6,14 @@ import 'package:remind_me_up/event_card.dart';
 import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/models/event.dart';
 import 'package:remind_me_up/routes/home.dart';
+import 'package:remind_me_up/routes/edit_event.dart';
 import 'package:remind_me_up/services/database.dart';
 import 'package:remind_me_up/util.dart';
 
 class EventDescription extends StatelessWidget {
   final Event event;
-
-  const EventDescription({Key? key, required this.event}) : super(key: key);
+  final String eventid;
+  const EventDescription({Key? key,required this.eventid, required this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -91,8 +92,22 @@ class EventDescription extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Text(event.description ?? "no  description",
-                      style: const TextStyle(fontSize: 20, height: 1.8))
+                      style: const TextStyle(fontSize: 20, height: 1.8)),
+
+                  TextButton(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => EditEvent(eventid: eventid,event: event)),
+                      );
+                    },
+                    child: Text('Edit'),
+                  ),
                 ],
+
               ),
             ),
           ),
