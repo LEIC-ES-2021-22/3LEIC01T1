@@ -388,6 +388,7 @@ class _EditEventState extends State<EditEvent> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const AuthWrapper()));
+                                    DatabaseService().sendNotification(_selectedCourse!.id, "[EVENT UPDATED] "+nameinput.text, descriptioninput.text);
                                   },
                                 ),
                               ],

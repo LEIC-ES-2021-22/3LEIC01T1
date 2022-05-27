@@ -366,13 +366,15 @@ class _CreateEventState extends State<CreateEvent> {
                                     DatabaseService().createEvent(newEvent);
                                     
                                     if(_selectedDeadline.difference(DateTime.now()).inMinutes > 5){ // alert 5 minutes before deadline
-                                      LocalNotificationService().receiveLocalNotificationLater(1, 
+                                      LocalNotificationService().receiveLocalNotificationLater(
+                                      1, 
                                       "[DEADLINE IN 5 MINS] "+nameinput.text, 
                                       descriptioninput.text, 
                                       _selectedDeadline.subtract(const Duration(minutes: 5)));
                                     }
                                     if(_selectedDeadline.difference(DateTime.now()).inDays > 1){ // alert 1 day before deadline
-                                      LocalNotificationService().receiveLocalNotificationLater(1, 
+                                      LocalNotificationService().receiveLocalNotificationLater(
+                                      2, 
                                       "[DEADLINE TOMORROW] "+nameinput.text, 
                                       descriptioninput.text, 
                                       _selectedDeadline.subtract(const Duration(days: 1)));
