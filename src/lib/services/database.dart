@@ -3,6 +3,7 @@ import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/models/event.dart';
 import 'package:remind_me_up/models/user.dart';
 import 'package:remind_me_up/services/auth.dart';
+import 'package:remind_me_up/services/pushNotification.dart';
 
 class DatabaseService {
   DatabaseService._internal();
@@ -60,6 +61,23 @@ class DatabaseService {
           UserData(courses: courses.toList()),
           SetOptions(mergeFields: ['courses']),
         );
+  }
+
+  void saveUserNotificationToken(String? token) async{
+    await FirebaseFirestore.instance.collection("userData").doc(AuthService().user?.uid).set({
+      'notificationToken':token,
+    }, SetOptions(mergeFields: ['notificationToken']));
+  }
+  void sendNotification(String courseId, String title, String body) async{
+    final userDataRef = FirebaseFirestore.instance.collection("userData");
+    userDataRef.where("courses", arrayContains: courseId).get().then((value){
+      for (var val in value.docs) {
+        var notificationToken = val.data()['notificationToken'];
+        if(notificationToken!=null){
+          PushNotification().sendPushMessage(notificationToken, body, title);
+        }
+      }
+    } );  
   }
 
   void createEvent(Event event){

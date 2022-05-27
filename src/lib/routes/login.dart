@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:remind_me_up/services/auth.dart';
+import 'package:remind_me_up/services/database.dart';
 
 class LoginScreen extends StatefulWidget {
   final Function toggleScreen;
@@ -90,6 +92,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                               'Something went wrong'),
                                         ),
                                       );
+                                    }
+                                    else{
+                                      String ?token;
+                                      await FirebaseMessaging.instance.getToken().then((value) {
+                                        token = value;
+                                      });
+                                      DatabaseService().saveUserNotificationToken(token);
                                     }
                                   }
 

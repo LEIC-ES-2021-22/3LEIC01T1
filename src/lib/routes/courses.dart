@@ -6,9 +6,10 @@ import 'package:remind_me_up/models/course.dart';
 import 'package:remind_me_up/routes/home.dart';
 import 'package:remind_me_up/services/database.dart';
 
+import '../services/pushNotification.dart';
+
 class CoursesScreen extends StatefulWidget {
   const CoursesScreen({Key? key}) : super(key: key);
-
   @override
   State<CoursesScreen> createState() => _CoursesScreenState();
 }
@@ -65,6 +66,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
       print("_selected: $_selected");
       print("_remote: $_remote");
     }
+    PushNotification().init();
 
     return DefaultScaffold(
       floatingActionButton: _loading || setEquals(_remote.toSet(), _selected)

@@ -59,7 +59,7 @@ class EventCard extends StatelessWidget {
                       children: [
                         IconWithText(
                           icon: Icons.calendar_month,
-                          text: DateFormat("HH:MM E, dd MMMM yyyy").format(event.deadline),
+                          text: DateFormat("HH:mm E, dd MMMM yyyy").format(event.deadline),
                         ),
                         if (event.duration != null)
                           IconWithText(
@@ -127,12 +127,14 @@ class IconWithText extends StatelessWidget {
   final IconData icon;
   final String text;
   final double iconSize;
+  final double textSize;
 
   const IconWithText({
     Key? key,
     required this.icon,
     required this.text,
     this.iconSize = 16,
+    this.textSize = 16,
   }) : super(key: key);
 
   @override
@@ -144,7 +146,8 @@ class IconWithText extends StatelessWidget {
         const SizedBox(
           width: 5,
         ),
-        Text(text),
+        Text(text, style: TextStyle(fontSize: textSize)),
+
       ],
     );
   }
