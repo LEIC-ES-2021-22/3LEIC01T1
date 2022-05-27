@@ -20,20 +20,29 @@ class AuthService {
     return _auth.currentUser;
   }
 
-  Future registerEmailPassword(String email, String password) async {
+  Future<String?> registerEmailPassword(String email, String password) async {
     try {
-      return (await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
-      ))
-          .user;
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        return 'The password provided is too weak.';
+      }
+
+      if (e.code == 'email-already-in-use') {
+        return 'The account already exists for that email.';
+      }
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
 
-      return null;
+      return 'An unknown error occurred';
     }
+
+    return null;
   }
 
   Future logout() async {

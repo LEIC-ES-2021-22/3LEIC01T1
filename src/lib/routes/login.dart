@@ -45,53 +45,54 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Column(
                         children: [
                           TextFormField(
+                            key: const ValueKey('email'),
                             decoration: const InputDecoration(
                               alignLabelWithHint: true,
                               labelText: 'Email',
                               contentPadding: EdgeInsets.zero,
                             ),
-                            validator: (v) =>
-                                v == null || v.length < 5 || !v.contains('@')
-                                    ? 'Invalid email'
-                                    : null,
+                            validator: (v) => v == null || v.length < 5 || !v.contains('@')
+                                ? 'Invalid email'
+                                : null,
                             onChanged: (v) => setState(() => _email = v.trim()),
                             autofillHints: const [AutofillHints.email],
                             keyboardType: TextInputType.emailAddress,
                           ),
                           const SizedBox(height: 15),
                           TextFormField(
+                            key: const ValueKey('password'),
                             decoration: const InputDecoration(
                               alignLabelWithHint: true,
                               labelText: 'Password',
                               contentPadding: EdgeInsets.zero,
                             ),
-                            validator: (v) => v == null || v.runes.length < 6
-                                ? 'Minimum 6 characters'
-                                : null,
+                            validator: (v) =>
+                                v == null || v.runes.length < 6 ? 'Minimum 6 characters' : null,
                             obscureText: true,
                             onChanged: (v) => setState(() => _password = v),
                             autofillHints: const [AutofillHints.password],
-                            keyboardType: TextInputType.text,),
-                        const SizedBox(height: 20),
-                        _loading
-                            ? const SpinKitRing(
-                                color: Colors.deepPurple,
-                                lineWidth: 5,
-                              )
-                            : OutlinedButton(
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    setState(() => _loading = true);
-                                    FirebaseAuthException? res = await _auth
-                                        .loginEmailPassword(_email, _password);
-                                    if (res != null) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(res.message ??
-                                              'Something went wrong'),
-                                        ),
-                                      );
+                            keyboardType: TextInputType.text,
+                          ),
+                          const SizedBox(height: 20),
+                          _loading
+                              ? const SpinKitRing(
+                                  color: Colors.deepPurple,
+                                  lineWidth: 5,
+                                )
+                              : OutlinedButton(
+                                  key: const ValueKey('login'),
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() => _loading = true);
+                                      FirebaseAuthException? res =
+                                          await _auth.loginEmailPassword(_email, _password);
+                                      if (res != null) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(res.message ?? 'Something went wrong'),
+                                          ),
+                                        );
+                                      }
                                     }
                                     else{
                                       String ?token;
@@ -100,8 +101,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       });
                                       DatabaseService().saveUserNotificationToken(token);
                                     }
-                                  }
-
                                     if (mounted) {
                                       setState(() => _loading = false);
                                     }
@@ -127,10 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text("Don't have an account? Sign Up"),
                     ),
                   ),
-                  if (kDebugMode) ...[
-                    const SizedBox(height: 50),
-                    Text('$_email | $_password')
-                  ]
+                  if (kDebugMode) ...[const SizedBox(height: 50), Text('$_email | $_password')]
                 ],
               ),
             ),
