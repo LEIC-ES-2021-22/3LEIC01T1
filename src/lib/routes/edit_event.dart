@@ -58,7 +58,17 @@ class _EditEventState extends State<EditEvent> {
   void initState() {
     super.initState();
 
-    _selectedDeadline=event.deadline;
+    _selectedDeadline = event.deadline;
+    _duration = event.duration == null? Duration.zero : event.duration!;
+    nameinput.text = event.name;
+    dateinput.text = DateFormat('yyyy-MM-dd').format(_selectedDeadline);
+    timeinput.text = DateFormat('hh:mm a').format(_selectedDeadline);
+    locationinput.text = event.location == null ? "" : event.location!;
+    descriptioninput.text = event.description ?? '';
+    List<String> tokens = event.duration.toString().split(':');
+    if (event.duration != null) {
+      durationinput.text = tokens[0] + ':' + tokens[1];
+    }
 
     getAsyncData();
   }
@@ -136,7 +146,7 @@ class _EditEventState extends State<EditEvent> {
                                 TextFormField(
                                   controller: nameinput,
                                   decoration: fixedInputDecoration.copyWith(
-                                    labelText: event.name.toString(),
+                                    labelText: 'Name*',
                                   ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -158,7 +168,7 @@ class _EditEventState extends State<EditEvent> {
                                             fixedInputDecoration.copyWith(
                                           prefixIcon:
                                               const Icon(Icons.calendar_today),
-                                          labelText: 'Date',
+                                          labelText: 'Date*',
                                         ),
                                         readOnly: true,
                                         validator: (value) {
@@ -281,7 +291,7 @@ class _EditEventState extends State<EditEvent> {
                                   controller: locationinput,
                                   decoration: fixedInputDecoration.copyWith(
                                     prefixIcon: const Icon(Icons.location_on),
-                                    labelText: event.location.toString(),
+                                    labelText: "Location",
                                   ),
                                 ),
                                 const SizedBox(height: 12),
@@ -291,7 +301,7 @@ class _EditEventState extends State<EditEvent> {
 
                                   decoration: fixedInputDecoration.copyWith(
                                     prefixIcon: const Icon(Icons.timer),
-                                    labelText: event.duration.toString(),
+                                    labelText: "Duration",
                                   ),
                                   readOnly: true,
                                   //set it true, so that user will not able to edit text
@@ -341,8 +351,8 @@ class _EditEventState extends State<EditEvent> {
                                   maxLines: 12,
                                   keyboardType: TextInputType.multiline,
                                   controller: descriptioninput,
-                                  decoration: InputDecoration(
-                                    labelText: event.description.toString(),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Description',
                                     hintText:
                                         'Write a description about the event',
                                     border: OutlineInputBorder(

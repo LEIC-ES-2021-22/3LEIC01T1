@@ -75,11 +75,12 @@ class EventDescription extends StatelessWidget {
                     children: [
                       IconWithText(
                         icon: Icons.calendar_month,
-                        text: DateFormat("HH:MM E, dd MMMM yyyy").format(event.deadline),
+                        text: DateFormat("HH:mm E, dd MMMM yyyy").format(event.deadline),
                       ),
                     ],
                   ),
                   const SizedBox(height: 5),
+                  if(event.duration != null)
                   Wrap(
                     spacing: 15,
                     runSpacing: 5,

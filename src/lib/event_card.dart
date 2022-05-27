@@ -59,7 +59,7 @@ class EventCard extends StatelessWidget {
                       children: [
                         IconWithText(
                           icon: Icons.calendar_month,
-                          text: DateFormat("HH:MM E, dd MMMM yyyy").format(event.deadline),
+                          text: DateFormat("HH:mm E, dd MMMM yyyy").format(event.deadline),
                         ),
                         if (event.duration != null)
                           IconWithText(
