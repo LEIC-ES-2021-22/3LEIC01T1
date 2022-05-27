@@ -5,6 +5,7 @@ class Event {
   DateTime deadline;
   String courseId;
   String teacherId;
+  String teacherName;
 
   String? description;
   Duration? duration;
@@ -15,6 +16,7 @@ class Event {
     required this.deadline,
     required this.courseId,
     required this.teacherId,
+    required this.teacherName,
     this.description,
     this.duration,
     this.location,
@@ -27,6 +29,7 @@ class Event {
           courseId: json['courseId']! as String,
           teacherId: json['teacherId']! as String,
           description: json['description'] as String?,
+          teacherName: json['teacherName'] as String,
           duration: json['duration'] != null
               ? Duration(seconds: json['duration']! as int)
               : null,
@@ -39,6 +42,7 @@ class Event {
       'deadline': deadline,
       'courseId': courseId,
       'teacherId': teacherId,
+      'teacherName': teacherName,
       'description': description,
       'duration': duration?.inSeconds,
       'location': location,

@@ -35,7 +35,7 @@ class EventDescription extends StatelessWidget {
                         child: Text(
                           event.name,
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 30,
                           ),
                         ),
                       ),
@@ -60,7 +60,7 @@ class EventDescription extends StatelessWidget {
 
                       if (snapshot.hasData && snapshot.data!.data() != null) {
                         return Text(
-                          snapshot.data!.data()!.shortName,
+                          snapshot.data!.data()!.name + " (" +snapshot.data!.data()!.shortName + ") • " + event.teacherName.split('@')[0],
                           style: const TextStyle(color: Colors.grey),
                         );
                       }
@@ -68,6 +68,7 @@ class EventDescription extends StatelessWidget {
                       return const SizedBox();
                     },
                   ),
+
                   const SizedBox(height: 15),
                   Wrap(
                     spacing: 15,
@@ -76,11 +77,14 @@ class EventDescription extends StatelessWidget {
                       IconWithText(
                         icon: Icons.calendar_month,
                         text: DateFormat("HH:mm E, dd MMMM yyyy").format(event.deadline),
+                        iconSize: 28,
+                        textSize: 14,
                       ),
                     ],
                   ),
                   const SizedBox(height: 5),
-                  if(event.duration != null)
+
+                  if(event.duration != null) (
                   Wrap(
                     spacing: 15,
                     runSpacing: 5,
@@ -88,12 +92,13 @@ class EventDescription extends StatelessWidget {
                       IconWithText(
                         icon: Icons.timer_outlined,
                         text: FlooredDuration.fromDuration(event.duration!).formatted(),
+                        iconSize: 30,
                       ),
                     ],
-                  ),
+                  )),
                   const SizedBox(height: 20),
                   Text(event.description ?? "no  description",
-                      style: const TextStyle(fontSize: 20, height: 1.8)),
+                      style: const TextStyle(fontSize: 18, height: 1.8)),
 
                   TextButton(
                     style: ButtonStyle(
@@ -107,6 +112,7 @@ class EventDescription extends StatelessWidget {
                     },
                     child: Text('Edit'),
                   ),
+
                 ],
 
               ),
