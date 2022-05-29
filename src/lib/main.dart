@@ -17,6 +17,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -41,6 +42,7 @@ class RemindMeUP extends StatelessWidget {
         initialData: null,
         builder: (context, widget) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: appTitle,
             theme: ThemeData(
               primarySwatch: Colors.deepPurple,
