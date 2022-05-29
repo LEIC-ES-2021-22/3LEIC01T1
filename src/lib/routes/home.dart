@@ -14,9 +14,87 @@ import 'package:remind_me_up/services/auth.dart';
 import 'package:remind_me_up/services/database.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
-  Home({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  int eventCategory;
+  Home({Key? key, this.eventCategory = 0}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  String _title = 'ALL EVENTS';
+
+  Text getTitle() {
+    switch (widget.eventCategory) {
+      case 0:
+        return const Text(
+          'ALL EVENTS',
+          style: TextStyle(
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+
+      case 1: // today
+        return const Text(
+          'TODAY EVENTS',
+          style: TextStyle(
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+
+      case 2: // tomorrow
+        return const Text(
+          'TOMORROW EVENTS',
+          style: TextStyle(
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+
+      case 3: // in aweek
+        return const Text(
+          'EVENTS IN A WEEK',
+          style: TextStyle(
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+
+      case 4: // in a month
+        return const Text(
+          'EVENTS IN A MONTH',
+          style: TextStyle(
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+
+      default:
+        return const Text(
+          'ALL EVENTS',
+          style: TextStyle(
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +109,7 @@ class Home extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
                   child: Text(
-                    'ALL EVENTS',
+                    'ALL EVENTS', // TODO: CHANGE THIS ACCORDINGLY
                     style: TextStyle(
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
@@ -61,8 +139,77 @@ class Home extends StatelessWidget {
 
                 final List<QueryDocumentSnapshot<Course>> courses =
                     snapshot.data![1];
-                final List<QueryDocumentSnapshot<Event>> events =
-                    snapshot.data![0];
+                List<QueryDocumentSnapshot<Event>> events = snapshot.data![0];
+                if (events.isNotEmpty) {
+                  switch (widget.eventCategory) {
+                    case 0:
+                      break;
+                    case 1: // today
+                      final now = DateTime.now();
+                      final today = DateTime(now.year, now.month, now.day);
+                      List<QueryDocumentSnapshot<Event>> newEvents =
+                          <QueryDocumentSnapshot<Event>>[];
+                      for (var event in events) {
+                        DateTime deadline = DateTime.fromMillisecondsSinceEpoch(
+                            event.get('deadline').seconds * 1000);
+                        final aDate = DateTime(
+                            deadline.year, deadline.month, deadline.day);
+                        if (aDate == today) {
+                          newEvents.add(event);
+                        }
+                      }
+                      events = newEvents;
+                      break;
+                    case 2: // tomorrow
+                      final now = DateTime.now();
+                      final tomorrow =
+                          DateTime(now.year, now.month, now.day + 1);
+                      List<QueryDocumentSnapshot<Event>> newEvents =
+                          <QueryDocumentSnapshot<Event>>[];
+                      for (var event in events) {
+                        DateTime deadline = DateTime.fromMillisecondsSinceEpoch(
+                            event.get('deadline').seconds * 1000);
+                        final aDate = DateTime(
+                            deadline.year, deadline.month, deadline.day);
+                        if (aDate == tomorrow) {
+                          newEvents.add(event);
+                        }
+                      }
+                      events = newEvents;
+                      break;
+                    case 3: // in aweek
+                      List<QueryDocumentSnapshot<Event>> newEvents =
+                          <QueryDocumentSnapshot<Event>>[];
+                      for (var event in events) {
+                        DateTime deadline = DateTime.fromMillisecondsSinceEpoch(
+                            event.get('deadline').seconds * 1000);
+                        final aDate = DateTime(
+                            deadline.year, deadline.month, deadline.day);
+                        int daysDiff = daysBetween(DateTime.now(), aDate);
+                        if (daysDiff < 7 && daysDiff >= 0) {
+                          newEvents.add(event);
+                        }
+                      }
+                      events = newEvents;
+                      break;
+                    case 4: // in a month
+                      List<QueryDocumentSnapshot<Event>> newEvents =
+                          <QueryDocumentSnapshot<Event>>[];
+                      for (var event in events) {
+                        DateTime deadline = DateTime.fromMillisecondsSinceEpoch(
+                            event.get('deadline').seconds * 1000);
+                        final aDate = DateTime(
+                            deadline.year, deadline.month, deadline.day);
+                        int daysDiff = daysBetween(DateTime.now(), aDate);
+                        if (daysDiff < 30 && daysDiff >= 0) {
+                          newEvents.add(event);
+                        }
+                      }
+                      events = newEvents;
+                      break;
+                    default:
+                  }
+                }
 
                 return events.isNotEmpty
                     ? ListView.builder(
@@ -165,22 +312,12 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              // TODO add a proper drawable resource to android, for now using
-              //      one that already exists in example app.
               icon: 'launch_background',
             ),
           ),
         );
       }
     });
-    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    //   print('A new onMessageOpenedApp event was published!');
-    //   Navigator.pushNamed(
-    //     context,
-    //     '/message',
-    //     arguments: MessageArguments(message, true),
-    //   );
-    // });
   }
 
   void loadFCM() async {
@@ -193,18 +330,11 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
       );
 
       flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-      /// Create an Android Notification Channel.
-      ///
-      /// We use this channel in the `AndroidManifest.xml` file to override the
-      /// default FCM channel to enable heads up notifications.
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(channel);
 
-      /// Update the iOS foreground notification presentation options to allow
-      /// heads up notifications.
       await FirebaseMessaging.instance
           .setForegroundNotificationPresentationOptions(
         alert: true,
@@ -241,15 +371,15 @@ class DefaultDrawer extends StatefulWidget {
 }
 
 class _DefaultDrawerState extends State<DefaultDrawer> {
-  int _role = 0; 
+  int _role = 0;
   @override
   void initState() {
     super.initState();
     getAsyncData();
   }
+
   void getAsyncData() async {
-    final role =
-        await DatabaseService().hasPermission();
+    final role = await DatabaseService().hasPermission();
 
     setState(() {
       _role = role;
@@ -276,14 +406,73 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
               ),
             ),
           ),
+          const SizedBox(height: 10),
           ListTile(
-            title: const Text('Home'),
+            leading: const Icon(Icons.inbox_outlined),
+            title: const Text('All Events'),
             onTap: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const AuthWrapper()),
             ),
           ),
+          Row(children: <Widget>[
+            Expanded(
+              child: Container(
+                  margin: const EdgeInsets.only(left: 70.0, right: 0),
+                  child: const Divider(
+                    color: Color.fromARGB(255, 149, 148, 148),
+                    height: 40,
+                  )),
+            ),
+          ]),
           ListTile(
+            leading: const Icon(Icons.calendar_today_sharp),
+            title: const Text('Today'),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(eventCategory: 1),
+                )),
+          ),
+          ListTile(
+            leading: const Icon(Icons.calendar_month_rounded),
+            title: const Text('Tomorrow'),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(eventCategory: 2),
+                )),
+          ),
+          ListTile(
+            leading: const Icon(Icons.calendar_today_outlined),
+            title: const Text('In A Week'),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(eventCategory: 3),
+                )),
+          ),
+          ListTile(
+            leading: const Icon(Icons.calendar_month_outlined),
+            title: const Text('In A Month'),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(eventCategory: 4),
+                )),
+          ),
+          Row(children: <Widget>[
+            Expanded(
+              child: Container(
+                  margin: const EdgeInsets.only(left: 70.0, right: 0),
+                  child: const Divider(
+                    color: Color.fromARGB(255, 149, 148, 148),
+                    height: 40,
+                  )),
+            ),
+          ]),
+          ListTile(
+            leading: const Icon(Icons.bookmark_add),
             title: const Text('Courses'),
             onTap: () => Navigator.push(
                 context,
@@ -291,7 +480,6 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
                   builder: (context) => const CoursesScreen(),
                 )),
           ),
-          
           if (_role == 1)
             ListTile(
               leading: const Icon(Icons.add_circle),
@@ -300,8 +488,27 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
                 context,
                 MaterialPageRoute(builder: (context) => const CreateEvent()),
               ),
-            )
+            ),
+            Row(children: <Widget>[
+            Expanded(
+              child: Container(
+                  margin: const EdgeInsets.only(left: 70.0, right: 0),
+                  child: const Divider(
+                    color: Color.fromARGB(255, 149, 148, 148),
+                    height: 40,
+                  )),
+            ),
+          ]),
+                      ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text("Settings"),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CoursesScreen()),
+              ),
+            ),
         ],
+        
       ),
     );
   }
