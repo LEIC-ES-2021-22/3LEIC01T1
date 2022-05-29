@@ -16,13 +16,10 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 class Home extends StatelessWidget {
-
-
   Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return DefaultScaffold(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
@@ -99,7 +96,6 @@ class Home extends StatelessWidget {
         ),
       ),
     );
-
   }
 }
 
@@ -107,8 +103,6 @@ class DefaultScaffold extends StatefulWidget {
   const DefaultScaffold(
       {Key? key, required this.child, this.floatingActionButton})
       : super(key: key);
-
-  
 
   final Widget? child;
   final Widget? floatingActionButton;
@@ -131,7 +125,7 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
     tz.initializeTimeZones();
   }
 
-  void getToken() async{
+  void getToken() async {
     await FirebaseMessaging.instance.getToken().then((value) => print(value));
   }
 
@@ -148,18 +142,16 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
       sound: true,
     );
 
-    if(settings.authorizationStatus == AuthorizationStatus.authorized){
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print("User Granted permission");
-    }
-    else if(settings.authorizationStatus == AuthorizationStatus.provisional){
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
       print("User granted provisional permission");
-
-    }
-    else{
+    } else {
       print("User declined or has not accepted permission");
     }
   }
- 
+
   void listenFCM() async {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -221,6 +213,7 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -238,11 +231,30 @@ class _DefaultScaffoldState extends State<DefaultScaffold> {
   }
 }
 
-class DefaultDrawer extends StatelessWidget {
+class DefaultDrawer extends StatefulWidget {
   const DefaultDrawer({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<DefaultDrawer> createState() => _DefaultDrawerState();
+}
+
+class _DefaultDrawerState extends State<DefaultDrawer> {
+  int _role = 0; 
+  @override
+  void initState() {
+    super.initState();
+    getAsyncData();
+  }
+  void getAsyncData() async {
+    final role =
+        await DatabaseService().hasPermission();
+
+    setState(() {
+      _role = role;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -274,19 +286,21 @@ class DefaultDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Courses'),
             onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CoursesScreen(),
-              )
-            ),
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CoursesScreen(),
+                )),
           ),
-          ListTile(
-            leading: const Icon(Icons.add_circle),
-            title: const Text("Create Event"),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CreateEvent()),
-            ),
-          )
+          
+          if (_role == 1)
+            ListTile(
+              leading: const Icon(Icons.add_circle),
+              title: const Text("Create Event"),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CreateEvent()),
+              ),
+            )
         ],
       ),
     );
