@@ -1,16 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class RecoverPassScreen extends StatefulWidget {
+class RecoverScreen extends StatefulWidget {
   final Function toggleScreen;
 
-  const RecoverPassScreen(this.toggleScreen, {Key? key}) : super(key: key);
+  const RecoverScreen(this.toggleScreen, {Key? key}) : super(key: key);
 
   @override
-  State<RecoverPassScreen> createState() => _RecoverPassScreenState();
+  State<RecoverScreen> createState() => _RecoverScreenState();
 }
 
-class _RecoverPassScreenState extends State<RecoverPassScreen> {
+class _RecoverScreenState extends State<RecoverScreen> {
   final _formKey = GlobalKey<FormState>();
 
   String _email = '';
