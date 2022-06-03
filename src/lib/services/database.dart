@@ -80,6 +80,18 @@ class DatabaseService {
     } );  
   }
 
+  void saveUserRole(int role) async{
+    await FirebaseFirestore.instance.collection("userData").doc(AuthService().user?.uid).set({
+      'role':role,
+    }, SetOptions(mergeFields: ['role']));
+  }
+
+
+  Future<int> hasPermission() async {
+    var userRef = await userData;
+    return userRef?.role ?? 0;
+  }
+
   void createEvent(Event event){
     // print(event);
     eventsRef.add(event);
